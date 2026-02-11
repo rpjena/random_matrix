@@ -1,0 +1,494 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!70!black,
+    citecolor=blue!70!black,
+    urlcolor=blue!70!black
+}
+
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Corr}{Corr}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\diag}{diag}
+
+\title{Portfolio PnL Attribution and Risk Decomposition\\
+Along Orthogonalized Stock Baskets}
+\author{Research Notes}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We present a mathematical framework for decomposing the performance and risk
+of a long/short equity portfolio along a large number of long-only stock baskets.
+Each basket is first orthogonalized against its corresponding market index to
+remove systematic market exposure. Portfolio exposures to the orthogonalized
+baskets are estimated via ridge regression. PnL is attributed additively across
+baskets, and risk is decomposed using the Euler decomposition (MCTR/ACTR).
+The framework scales to thousands of baskets.
+\end{abstract}
+
+\tableofcontents
+
+% ======================================================================
+\section{Setup and Notation}
+\label{sec:setup}
+% ======================================================================
+
+\begin{definition}[Universe]
+Let there be $N$ stocks indexed by $i = 1, \dots, N$, observed over
+$T$ trading days indexed by $t = 1, \dots, T$. Let $B$ denote the number
+of baskets indexed by $b = 1, \dots, B$.
+\end{definition}
+
+We use the following notation throughout:
+
+\begin{center}
+\begin{tabular}{cl}
+\toprule
+\textbf{Symbol} & \textbf{Description} \\
+\midrule
+$R_i(t)$ & Daily return of stock $i$ on day $t$ \\
+$R^{\mathrm{mkt}}_m(t)$ & Daily return of market index $m$ on day $t$ \\
+$R^{\mathrm{basket}}_b(t)$ & Daily return of basket $b$ on day $t$ \\
+$R^{\mathrm{port}}(t)$ & Daily return of the portfolio on day $t$ \\
+$\tilde{R}_b(t)$ & Orthogonalized return of basket $b$ on day $t$ \\
+$\mathbf{R}(t)$ & $N$-vector of stock returns on day $t$ \\
+$\bm{\omega}$ & $N$-vector of portfolio weights \\
+$\mathbf{w}_b$ & Weight vector for basket $b$ (sparse, $N$-dimensional) \\
+$\mathcal{S}_b$ & Set of stock indices belonging to basket $b$ \\
+$m_b$ & Market index corresponding to basket $b$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ======================================================================
+\section{Stock Return Model}
+\label{sec:stock_model}
+% ======================================================================
+
+Individual stock returns follow a single-factor model driven by the
+market index:
+\begin{equation}
+\label{eq:stock_return}
+R_i(t) = \alpha_i + \beta_i \, R^{\mathrm{mkt}}(t) + \epsilon_i(t),
+\quad i = 1, \dots, N, \quad t = 1, \dots, T,
+\end{equation}
+where:
+\begin{itemize}[nosep]
+    \item $\alpha_i$ is the stock-specific drift,
+    \item $\beta_i > 0$ is the market beta of stock $i$,
+    \item $\epsilon_i(t) \sim \mathcal{N}(0, \sigma_i^2)$ is idiosyncratic noise,
+          assumed independent across stocks and time.
+\end{itemize}
+
+\begin{remark}
+In practice, betas are estimated or provided exogenously. The assumption
+of a single market factor per region can be extended to multi-factor models
+without changing the orthogonalization framework.
+\end{remark}
+
+% ======================================================================
+\section{Basket Return Construction}
+\label{sec:basket_construction}
+% ======================================================================
+
+\begin{definition}[Long-Only Basket]
+Basket $b$ is defined by a set of constituents $\mathcal{S}_b \subset \{1, \dots, N\}$
+and non-negative weights $w_{b,i} \geq 0$ for $i \in \mathcal{S}_b$, satisfying:
+\begin{equation}
+\sum_{i \in \mathcal{S}_b} w_{b,i} = 1.
+\end{equation}
+\end{definition}
+
+The basket return is the weighted average of constituent returns:
+\begin{equation}
+\label{eq:basket_return}
+R^{\mathrm{basket}}_b(t)
+= \sum_{i \in \mathcal{S}_b} w_{b,i} \, R_i(t)
+= \mathbf{w}_b^\top \mathbf{R}(t),
+\end{equation}
+where $\mathbf{w}_b \in \mathbb{R}^N$ is sparse with non-zero entries only for
+$i \in \mathcal{S}_b$.
+
+Each basket is associated with a market index via the mapping
+$b \mapsto m_b$ (e.g., US baskets map to the S\&P\,500, European baskets
+to the STOXX\,600).
+
+% ======================================================================
+\section{Portfolio Return}
+\label{sec:portfolio}
+% ======================================================================
+
+The long/short portfolio has weights $\bm{\omega} \in \mathbb{R}^N$, where
+$\omega_i > 0$ denotes a long position and $\omega_i < 0$ a short position.
+For a dollar-neutral portfolio:
+\begin{equation}
+\sum_{i=1}^N \omega_i \approx 0.
+\end{equation}
+
+The portfolio return on day $t$ is:
+\begin{equation}
+\label{eq:portfolio_return}
+R^{\mathrm{port}}(t) = \sum_{i=1}^N \omega_i \, R_i(t) = \bm{\omega}^\top \mathbf{R}(t).
+\end{equation}
+
+We define the gross leverage and net exposure as:
+\begin{equation}
+L_{\mathrm{gross}} = \sum_{i=1}^N |\omega_i|,
+\qquad
+L_{\mathrm{net}} = \sum_{i=1}^N \omega_i.
+\end{equation}
+
+% ======================================================================
+\section{Orthogonalization of Basket Returns}
+\label{sec:orthogonalization}
+% ======================================================================
+
+Raw basket returns are correlated with the market. To isolate the
+idiosyncratic component, we orthogonalize each basket against its
+corresponding market index.
+
+\subsection{OLS Regression}
+
+For each basket $b$ with market index $m_b$, we estimate via ordinary
+least squares:
+\begin{equation}
+\label{eq:ols}
+R^{\mathrm{basket}}_b(t)
+= \hat{\alpha}_b + \hat{\beta}_b \, R^{\mathrm{mkt}}_{m_b}(t) + \hat{\varepsilon}_b(t).
+\end{equation}
+
+Define the regression matrix and response vector:
+\begin{equation}
+\mathbf{X}_{m_b}
+= \begin{bmatrix} 1 & R^{\mathrm{mkt}}_{m_b}(1) \\
+                   1 & R^{\mathrm{mkt}}_{m_b}(2) \\
+                   \vdots & \vdots \\
+                   1 & R^{\mathrm{mkt}}_{m_b}(T) \end{bmatrix}
+\in \mathbb{R}^{T \times 2},
+\qquad
+\mathbf{y}_b
+= \begin{bmatrix} R^{\mathrm{basket}}_b(1) \\
+                   R^{\mathrm{basket}}_b(2) \\
+                   \vdots \\
+                   R^{\mathrm{basket}}_b(T) \end{bmatrix}
+\in \mathbb{R}^T.
+\end{equation}
+
+The OLS solution is:
+\begin{equation}
+\label{eq:ols_solution}
+\begin{bmatrix} \hat{\alpha}_b \\ \hat{\beta}_b \end{bmatrix}
+= \left(\mathbf{X}_{m_b}^\top \mathbf{X}_{m_b}\right)^{-1}
+  \mathbf{X}_{m_b}^\top \mathbf{y}_b.
+\end{equation}
+
+\subsection{Orthogonalized Returns}
+
+\begin{definition}[Orthogonalized Basket Return]
+The orthogonalized return of basket $b$ is the OLS residual:
+\begin{equation}
+\label{eq:ortho_return}
+\tilde{R}_b(t) \equiv \hat{\varepsilon}_b(t)
+= R^{\mathrm{basket}}_b(t) - \hat{\alpha}_b - \hat{\beta}_b \, R^{\mathrm{mkt}}_{m_b}(t).
+\end{equation}
+\end{definition}
+
+\subsection{Diagnostic Statistics}
+
+The coefficient of determination for basket $b$:
+\begin{equation}
+\label{eq:r_squared}
+R^2_b = 1 - \frac{SS_{\mathrm{res},b}}{SS_{\mathrm{tot},b}}
+= 1 - \frac{\displaystyle\sum_{t=1}^T \hat{\varepsilon}_b(t)^2}
+           {\displaystyle\sum_{t=1}^T
+            \left(R^{\mathrm{basket}}_b(t) - \bar{R}^{\mathrm{basket}}_b\right)^2},
+\end{equation}
+where $\bar{R}^{\mathrm{basket}}_b = \frac{1}{T}\sum_t R^{\mathrm{basket}}_b(t)$.
+
+\begin{proposition}[Orthogonality]
+By the normal equations of OLS, the residuals are uncorrelated with the
+regressors:
+\begin{equation}
+\label{eq:orthogonality}
+\Corr\!\left(\tilde{R}_b,\; R^{\mathrm{mkt}}_{m_b}\right) = 0
+\quad \forall\; b = 1, \dots, B.
+\end{equation}
+\end{proposition}
+\begin{proof}
+The OLS first-order condition gives
+$\mathbf{X}_{m_b}^\top \hat{\bm{\varepsilon}}_b = \mathbf{0}$,
+which implies both $\sum_t \hat{\varepsilon}_b(t) = 0$ and
+$\sum_t \hat{\varepsilon}_b(t) \, R^{\mathrm{mkt}}_{m_b}(t) = 0$.
+The latter is the sample covariance (up to a constant), hence
+the sample correlation is zero.
+\end{proof}
+
+% ======================================================================
+\section{Exposure Estimation via Ridge Regression}
+\label{sec:exposure}
+% ======================================================================
+
+We model the portfolio return as a linear combination of orthogonalized
+basket returns:
+\begin{equation}
+\label{eq:exposure_model}
+R^{\mathrm{port}}(t)
+= \sum_{b=1}^B \delta_b \, \tilde{R}_b(t) + \eta(t),
+\end{equation}
+where $\delta_b$ is the portfolio's exposure to orthogonalized basket $b$
+and $\eta(t)$ is the unexplained residual.
+
+\subsection{Ridge Estimator}
+
+When $B$ is large or the orthogonalized baskets are mutually correlated,
+OLS is ill-conditioned. We use ridge regression (Tikhonov regularization)
+with parameter $\lambda > 0$.
+
+Define:
+\begin{equation}
+\tilde{\mathbf{X}}
+= \bigl[\tilde{R}_b(t)\bigr]_{t,b} \in \mathbb{R}^{T \times B},
+\qquad
+\mathbf{y} = \bigl[R^{\mathrm{port}}(t)\bigr]_t \in \mathbb{R}^T.
+\end{equation}
+
+The ridge estimator is:
+\begin{equation}
+\label{eq:ridge}
+\hat{\bm{\delta}}
+= \left(\tilde{\mathbf{X}}^\top \tilde{\mathbf{X}}
+  + \lambda \, \mathbf{I}_B\right)^{-1}
+  \tilde{\mathbf{X}}^\top \mathbf{y}.
+\end{equation}
+
+\begin{remark}[Bayesian Interpretation]
+The ridge estimator~\eqref{eq:ridge} is the maximum a posteriori (MAP)
+estimate under the prior $\bm{\delta} \sim \mathcal{N}(\mathbf{0},
+\lambda^{-1}\mathbf{I}_B)$ with Gaussian likelihood. Increasing $\lambda$
+shrinks exposures toward zero.
+\end{remark}
+
+\subsection{In-Sample Fit}
+
+The fitted values and residuals are:
+\begin{equation}
+\hat{\mathbf{y}} = \tilde{\mathbf{X}} \, \hat{\bm{\delta}},
+\qquad
+\hat{\bm{\eta}} = \mathbf{y} - \hat{\mathbf{y}}.
+\end{equation}
+
+The in-sample $R^2$:
+\begin{equation}
+\label{eq:model_r2}
+R^2 = 1 - \frac{\|\hat{\bm{\eta}}\|^2}{\|\mathbf{y} - \bar{y}\,\mathbf{1}\|^2}
+= 1 - \frac{\displaystyle\sum_t \hat{\eta}(t)^2}
+           {\displaystyle\sum_t \left(R^{\mathrm{port}}(t) - \bar{R}^{\mathrm{port}}\right)^2}.
+\end{equation}
+
+% ======================================================================
+\section{PnL Attribution}
+\label{sec:pnl}
+% ======================================================================
+
+\subsection{Daily Attribution}
+
+The daily PnL attributed to basket $b$ is:
+\begin{equation}
+\label{eq:daily_pnl}
+\mathrm{PnL}_b(t) = \hat{\delta}_b \, \tilde{R}_b(t).
+\end{equation}
+
+The unexplained component absorbs the residual:
+\begin{equation}
+\label{eq:unexplained}
+\mathrm{PnL}_{\mathrm{unexp}}(t)
+= R^{\mathrm{port}}(t) - \sum_{b=1}^B \mathrm{PnL}_b(t).
+\end{equation}
+
+\begin{proposition}[Additive Decomposition]
+The attribution is exact:
+\begin{equation}
+\label{eq:pnl_decomp}
+R^{\mathrm{port}}(t)
+= \sum_{b=1}^B \mathrm{PnL}_b(t) + \mathrm{PnL}_{\mathrm{unexp}}(t)
+\quad \forall\; t.
+\end{equation}
+\end{proposition}
+
+\subsection{Cumulative Attribution}
+
+\begin{equation}
+\label{eq:cum_pnl}
+\mathrm{CumPnL}_b(\tau) = \sum_{t=1}^{\tau} \mathrm{PnL}_b(t),
+\qquad \tau = 1, \dots, T.
+\end{equation}
+
+\subsection{Summary Statistics}
+
+For each attribution source $s \in \{1, \dots, B, \mathrm{unexp}\}$, define:
+\begin{align}
+\label{eq:ann_return}
+\text{Annualized Return}_s &= \bar{P}_s \times 252,
+\quad \text{where } \bar{P}_s = \frac{1}{T}\sum_{t=1}^T \mathrm{PnL}_s(t), \\[6pt]
+\label{eq:ann_vol}
+\text{Annualized Vol}_s &= \hat{\sigma}(\mathrm{PnL}_s) \times \sqrt{252},
+\quad \text{where } \hat{\sigma}(\mathrm{PnL}_s)
+= \sqrt{\frac{1}{T-1}\sum_{t=1}^T \left(\mathrm{PnL}_s(t) - \bar{P}_s\right)^2}, \\[6pt]
+\label{eq:sharpe}
+\text{Sharpe}_s &= \frac{\text{Annualized Return}_s}{\text{Annualized Vol}_s}, \\[6pt]
+\label{eq:pct_pnl}
+\text{PnL\%}_s &= \frac{\displaystyle\sum_t \mathrm{PnL}_s(t)}
+                       {\displaystyle\sum_t R^{\mathrm{port}}(t)} \times 100.
+\end{align}
+
+% ======================================================================
+\section{Risk Decomposition}
+\label{sec:risk}
+% ======================================================================
+
+We decompose portfolio risk along the orthogonalized baskets using the
+Euler decomposition of a positively homogeneous risk measure.
+
+\subsection{Covariance Matrix}
+
+Let $\bm{\Sigma} \in \mathbb{R}^{B \times B}$ be the annualized covariance
+matrix of orthogonalized basket returns:
+\begin{equation}
+\label{eq:cov_matrix}
+\bm{\Sigma} = 252 \cdot \widehat{\Cov}\!\left(\tilde{\mathbf{R}}\right),
+\end{equation}
+where $\widehat{\Cov}$ denotes the sample covariance estimator.
+
+\begin{remark}[Scaling Considerations]
+For $B > 1000$, the sample covariance matrix becomes poorly conditioned
+($T/B$ ratio too small). In practice, use shrinkage estimators
+(e.g., Ledoit--Wolf), factor-based covariance, or sparse thresholding.
+\end{remark}
+
+\subsection{Portfolio Volatility}
+
+The annualized portfolio volatility implied by the basket model is:
+\begin{equation}
+\label{eq:port_vol}
+\sigma_p = \sqrt{\hat{\bm{\delta}}^\top \bm{\Sigma} \, \hat{\bm{\delta}}}.
+\end{equation}
+
+\subsection{Marginal Contribution to Total Risk (MCTR)}
+
+\begin{definition}[MCTR]
+The marginal contribution of basket $b$ to total portfolio risk is the
+partial derivative of portfolio volatility with respect to the exposure:
+\begin{equation}
+\label{eq:mctr}
+\mathrm{MCTR}_b
+= \frac{\partial \sigma_p}{\partial \delta_b}
+= \frac{(\bm{\Sigma} \, \hat{\bm{\delta}})_b}{\sigma_p}.
+\end{equation}
+\end{definition}
+
+\begin{proof}
+Differentiating $\sigma_p = (\hat{\bm{\delta}}^\top \bm{\Sigma}\,
+\hat{\bm{\delta}})^{1/2}$ with respect to $\delta_b$:
+\[
+\frac{\partial \sigma_p}{\partial \delta_b}
+= \frac{1}{2} \left(\hat{\bm{\delta}}^\top \bm{\Sigma}\,\hat{\bm{\delta}}\right)^{-1/2}
+  \cdot 2 \, (\bm{\Sigma}\,\hat{\bm{\delta}})_b
+= \frac{(\bm{\Sigma}\,\hat{\bm{\delta}})_b}{\sigma_p}.
+\qedhere
+\]
+\end{proof}
+
+\subsection{Absolute Contribution to Total Risk (ACTR)}
+
+\begin{definition}[ACTR]
+The absolute contribution of basket $b$ to total portfolio risk is:
+\begin{equation}
+\label{eq:actr}
+\mathrm{ACTR}_b
+= \hat{\delta}_b \times \mathrm{MCTR}_b
+= \frac{\hat{\delta}_b \, (\bm{\Sigma} \, \hat{\bm{\delta}})_b}{\sigma_p}.
+\end{equation}
+\end{definition}
+
+\begin{proposition}[Euler Decomposition]
+ACTR provides an additive decomposition of portfolio volatility:
+\begin{equation}
+\label{eq:euler}
+\sum_{b=1}^B \mathrm{ACTR}_b = \sigma_p.
+\end{equation}
+\end{proposition}
+\begin{proof}
+By Euler's theorem for homogeneous functions of degree one
+($\sigma_p$ is homogeneous of degree one in $\hat{\bm{\delta}}$):
+\[
+\sum_{b=1}^B \hat{\delta}_b \, \frac{\partial \sigma_p}{\partial \delta_b}
+= \sigma_p.
+\]
+Substituting $\mathrm{ACTR}_b = \hat{\delta}_b \, \mathrm{MCTR}_b$ yields
+the result.
+\end{proof}
+
+\subsection{Percentage Risk Contribution}
+
+\begin{equation}
+\label{eq:risk_pct}
+\mathrm{RiskPct}_b = \frac{\mathrm{ACTR}_b}{\sigma_p} \times 100,
+\qquad
+\sum_{b=1}^B \mathrm{RiskPct}_b = 100\%.
+\end{equation}
+
+% ======================================================================
+\section{Summary of the Pipeline}
+\label{sec:summary}
+% ======================================================================
+
+\begin{center}
+\begin{tabular}{@{}clll@{}}
+\toprule
+\textbf{Step} & \textbf{Operation} & \textbf{Method} & \textbf{Output} \\
+\midrule
+1 & Basket returns & $\mathbf{w}_b^\top \mathbf{R}(t)$ & $R^{\mathrm{basket}}_b(t)$ \\
+2 & Orthogonalize & OLS vs.\ market & $\tilde{R}_b(t)$, $\hat{\beta}_b$, $R^2_b$ \\
+3 & Exposures & Ridge regression & $\hat{\bm{\delta}} \in \mathbb{R}^B$ \\
+4 & PnL attribution & $\hat{\delta}_b \, \tilde{R}_b(t)$ & Daily/cumulative PnL \\
+5 & Risk decomposition & MCTR/ACTR & $\mathrm{ACTR}_b$, $\mathrm{RiskPct}_b$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Computational Complexity}
+
+\begin{itemize}[nosep]
+\item \textbf{Orthogonalization}: $\mathcal{O}(B \cdot T)$ --- linear in the
+      number of baskets.
+\item \textbf{Ridge regression}: $\mathcal{O}(B^2 T + B^3)$ --- dominated by
+      $\tilde{\mathbf{X}}^\top\tilde{\mathbf{X}}$ and the $B \times B$ solve.
+\item \textbf{Risk decomposition}: $\mathcal{O}(B^2 T + B^2)$ --- covariance
+      estimation and matrix-vector product.
+\end{itemize}
+
+For $B \gg T$, the ridge parameter $\lambda$ provides essential regularization,
+and shrinkage covariance estimators should replace the sample covariance in
+the risk decomposition.
+
+\end{document}
