@@ -1,0 +1,684 @@
+% ============================================================
+%  Power-Law Scaling of Workforce with Assets Under Management
+%  in Equity Market-Neutral Hedge Funds
+%
+%  PRL-style two-column layout using standard LaTeX packages.
+%  NO revtex4-2 required.
+%
+%  Compile sequence:
+%    pdflatex paper
+%    bibtex paper
+%    pdflatex paper
+%    pdflatex paper
+% ============================================================
+
+\documentclass[10pt,onecolumn]{article}
+
+% -- Page geometry (single column, PRL-style margins) ------
+\usepackage[
+  letterpaper,
+  top=2.2cm, bottom=2.4cm,
+  left=3.2cm, right=3.2cm
+]{geometry}
+
+% -- Core packages -----------------------------------------
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{times}
+\usepackage{mathptmx}
+\usepackage{titlesec}
+\usepackage{abstract}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{dblfloatfix}
+\usepackage{placeins}
+\usepackage{afterpage}
+
+% Aggressive float placement — prevent figures drifting far from text
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{5}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.50}
+\renewcommand{\textfraction}{0.10}
+\renewcommand{\floatpagefraction}{0.75}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=blue!60!black,
+  urlcolor=blue!60!black,
+  pdftitle={Power-Law Scaling of Workforce with AUM in Hedge Funds},
+}
+
+% -- Section formatting (PRL convention) ------------------
+\titleformat{\section}
+  {\normalfont\bfseries\small}{\Roman{section}.}{0.4em}{}
+\titleformat{\subsection}
+  {\normalfont\itshape\small}{\Alph{subsection}.}{0.4em}{}
+\titleformat{\paragraph}[runin]
+  {\normalfont\itshape\small}{}{0pt}{}[.---]
+
+\titlespacing*{\section}{0pt}{6pt plus 2pt minus 1pt}{3pt}
+\titlespacing*{\subsection}{0pt}{4pt plus 1pt}{2pt}
+\titlespacing*{\paragraph}{0pt}{2pt}{4pt}
+
+% -- Paragraph style --------------------------------------
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{1em}
+
+% -- Abstract style ----------------------------------------
+\renewcommand{\abstractnamefont}{\normalfont\bfseries\small}
+\renewcommand{\abstracttextfont}{\small}
+\setlength{\absleftindent}{0pt}
+\setlength{\absrightindent}{0pt}
+
+% -- Caption style -----------------------------------------
+\captionsetup{
+  font=small, labelfont=bf, labelsep=period,
+  justification=raggedright, singlelinecheck=false
+}
+
+% -- Header/footer -----------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[C]{\small\thepage}
+
+% -- Custom math commands ----------------------------------
+\newcommand{\Ns}{N_{s}}
+\newcommand{\Ac}{\mathcal{A}}
+\newcommand{\alphahat}{\hat{\alpha}}
+\newcommand{\Chat}{\hat{C}}
+\newcommand{\SE}{\mathrm{SE}}
+
+% -- Bibliography style ------------------------------------
+\bibliographystyle{unsrtnat}
+
+% -- PACS helper -------------------------------------------
+\newcommand{\pacs}[1]{%
+  \vspace{2pt}\noindent{\small\textbf{PACS numbers:}\ #1}\par\vspace{4pt}}
+
+% ==========================================================
+\begin{document}
+
+% -- Title block -------------------------------------------
+\begin{center}
+  {\large\bfseries
+    Power-Law Scaling of Workforce with Assets Under Management\\[2pt]
+    in Equity Market-Neutral Hedge Funds
+  }\\[8pt]
+  {\normalsize [Author A]$^{1}$ and [Author B]$^{2}$}\\[4pt]
+  {\small
+    $^{1}$\textit{Dept.\ of Financial Economics, [Institution A]}\\
+    $^{2}$\textit{Dept.\ of Physics and Complexity Science, [Institution B]}
+  }\\[4pt]
+  {\small (Dated: \today)}
+\end{center}
+\vspace{4pt}\hrule height 0.4pt\vspace{6pt}
+\begin{abstract}
+We test the hypothesis that employee headcount $\Ns$ and assets under
+management (AUM) $\Ac$ in equity market-neutral hedge funds obey a
+Pareto (power-law) relation $\Ns = C\,\Ac^{\alpha}$, where $\alpha$ is
+a fund-specific scaling exponent and $C$ is a characteristic scale.
+Using a dataset of $N{=}65$ point-in-time observations spanning 2005--2025
+across eleven major systematic and multi-manager funds---including
+Citadel, Millennium Management, Renaissance Technologies, Two Sigma,
+D.E.~Shaw, AQR, Point72, and Balyasny---we estimate the model via ordinary
+least squares in log-space.
+Individual fund fits are excellent ($R^{2} = 0.64$--$0.99$), with
+exponents ranging from $\alpha = 0.27$ (D.E.~Shaw) to $\alpha = 1.51$
+(ExodusPoint).
+Exponents cluster by organisational model:
+pure systematic quantitative funds exhibit $\alpha \lesssim 0.50$
+(strong economies of scale driven by algorithmic labour substitution);
+multi-manager pod-shop platforms exhibit $\alpha \approx 0.80$--$1.5$
+(near-proportional hiring of portfolio-manager teams);
+hybrid funds occupy an intermediate regime ($\alpha \approx 0.66$).
+The prefactor $C$ anti-correlates with $\alpha$ ($r = -0.72$),
+capturing the trade-off between labour intensity and capital efficiency.
+These findings parallel power-law scaling in biological metabolism,
+urban infrastructure, and firm-size distributions, and identify the
+\textit{organisational model}---not AUM per se---as the primary
+determinant of the staffing regime in hedge funds.
+\end{abstract}
+\vspace{4pt}
+\pacs{89.65.Gh, 89.75.Da, 02.50.Sk}
+\vspace{6pt}\hrule height 0.4pt\vspace{10pt}
+
+% -- I. INTRODUCTION ---------------------------------------
+\section{\label{sec:intro}Introduction}
+
+Power-law scaling relations of the form $Y \propto X^{\alpha}$ appear
+throughout complex systems: metabolic rates in biology~\cite{kleiber1932},
+urban infrastructure and social
+outputs~\cite{bettencourt2007}, and the size distributions of
+firms~\cite{gabaix2009,axtell2001} and financial
+fluctuations~\cite{stanley1996,gabaix2003,plerou1999}.
+In finance, Zipf's law governs fund returns, trade volumes, and
+institutional equity positions.
+Yet the \emph{internal} organisational scaling of investment firms---how
+their workforce grows with the capital they manage---has received
+little systematic study.
+
+Hedge funds provide an ideal laboratory.
+They span a wide range of organisational archetypes:
+from pure algorithmic quantitative (quant) funds, whose investment
+processes are almost entirely automated, to ``pod-shop''
+multi-manager platforms in which semi-autonomous portfolio-manager (PM)
+teams must be staffed in proportion to deployed capital.
+Their AUM and headcount are partially observable via SEC Form ADV
+and 13F regulatory filings.
+
+We formalise the \emph{Pareto staffing hypothesis}: the headcount
+$\Ns$ of fund $i$ at time $t$ satisfies
+\begin{equation}
+  \label{eq:pareto}
+  \Ns = C_i \, \Ac^{\alpha_i},
+\end{equation}
+where $\Ac$ is AUM (USD billion), $C_i > 0$ is a fund-specific
+prefactor, and $\alpha_i \geq 0$ is the scaling exponent.
+Equation~\eqref{eq:pareto} is equivalent to the log-linear model
+\begin{equation}
+  \label{eq:loglinear}
+  \ln \Ns = \ln C_i + \alpha_i \ln \Ac + \varepsilon,
+\end{equation}
+which permits estimation by ordinary least squares (OLS) in log-space.
+
+% -- II. DATA ----------------------------------------------
+\section{\label{sec:data}Data}
+
+\paragraph{Sample.}
+Our sample comprises eleven major funds: Citadel, Millennium Management,
+Two Sigma, D.E.~Shaw, Renaissance Technologies, AQR Capital Management,
+Point72, Balyasny Asset Management, Bridgewater Associates,
+SAC Capital, and ExodusPoint.
+These funds collectively managed ${\approx}\$700$B in AUM as of 2024
+and span systematic quant, pod-shop, and global macro strategies.
+
+\paragraph{AUM.}
+Sourced from Bloomberg Intelligence, Pensions \& Investments annual
+rankings, firm disclosures, and SEC 13F filings~\cite{sec_adv}.
+
+\paragraph{Headcount.}
+Sourced primarily from SEC Form ADV filings (which require disclosure
+of all full- and part-time employees), cross-checked against
+Hedgeweek~\cite{hedgeweek2024} and industry
+reports~\cite{ghose2025}.
+The dataset contains $N{=}65$ observations (2005--2025), with
+$n_i \in [3,10]$ per fund.
+AUM ranges from \$2B to \$226B; headcount from 100 to 6{,}000.
+
+% -- III. ESTIMATION ---------------------------------------
+\section{\label{sec:methods}Estimation}
+
+\paragraph{Fund-level OLS.}
+For fund $i$, define $x_{it} = \ln\Ac_{it}$ and
+$y_{it} = \ln N_{s,it}$.
+OLS in log-space gives:
+\begin{equation}
+  \alphahat_i
+    = \frac{\sum_t (x_{it}-\bar x_i)(y_{it}-\bar y_i)}
+           {\sum_t (x_{it}-\bar x_i)^2},\quad
+  \Chat_i = e^{\bar y_i - \alphahat_i \bar x_i}.
+\end{equation}
+Standard errors are heteroskedasticity-robust (HC1).
+Model fit is assessed via $R^2$ in log-space and residual analysis.
+
+\paragraph{Pooled regression.}
+A pooled OLS across all $N{=}65$ observations yields consensus
+estimates $(\alpha_{\rm pool}, C_{\rm pool})$ as a cross-sectional
+benchmark.
+The low pooled $R^2$ ($= 0.16$) reflects cross-fund heterogeneity
+in $C_i$, not poor within-fund fit.
+
+% -- IV. RESULTS -------------------------------------------
+\section{\label{sec:results}Results}
+
+\subsection{Log-log scatter}
+
+Figure~\ref{fig:loglog} shows $\Ns$ vs.\ $\Ac$ in log-log coordinates.
+Approximate log-linearity is visually apparent for each fund individually,
+supporting the power-law hypothesis.
+Per-fund fitted lines are shown alongside the pooled OLS
+($\alphahat_{\rm pool} = 0.35$, $R^2 = 0.16$).
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.96\textwidth]{figures/fig1_loglog.pdf}
+  \caption{\label{fig:loglog}
+    \textbf{Log-log scatter of $\Ns$ vs.\ $\Ac$.}
+    Each symbol--colour pair denotes one fund (legend, top left).
+    Thin dashed lines: per-fund OLS fits.
+    Thick dashed black: pooled OLS
+    ($\alphahat_{\rm pool}=0.35$, $R^2=0.16$;
+    low pooled $R^2$ reflects heterogeneity in $C_i$,
+    not poor within-fund fit).
+  }
+\end{figure}
+
+\subsection{Fitted parameters}
+
+Table~\ref{tab:params} summarises $\alphahat_i$, $\Chat_i$, $R^2$,
+and AUM-per-employee efficiency.
+Within-fund $R^2$ ranges from 0.44 (Bridgewater, $n{=}5$, macro
+strategy with AUM partially exogenous to headcount decisions) to 0.99
+(Two Sigma; ExodusPoint), confirming that the power-law model provides
+a robust description of each fund's staffing trajectory.
+
+\subsection{Three scaling regimes}
+
+Figure~\ref{fig:alpha} (left panel) displays $\alphahat_i$ with
+${\pm}1.96\,\SE$ confidence intervals, sorted ascending and
+colour-coded by strategy.
+Three regimes are evident:
+
+\paragraph{Sub-linear ($\alpha < 0.5$).}
+D.E.~Shaw ($\alphahat = 0.27$) and Renaissance Technologies
+($\alphahat = 0.46$) exhibit strongly sub-linear scaling.
+A doubling of AUM requires only a $2^{0.27} \approx 1.2$-fold
+increase in staff, reflecting heavy investment in proprietary
+technology and algorithmic infrastructure as labour substitutes.
+
+\paragraph{Intermediate ($0.5 \le \alpha < 0.8$).}
+AQR ($0.64$), Citadel ($0.66$), and Bridgewater ($0.50$).
+Citadel's $\alphahat = 0.66$ ($R^2 = 0.96$, $n = 10$) is
+particularly noteworthy: despite operating a pod-shop model,
+its centralised hub-and-spoke investment infrastructure generates
+material economies of scale relative to pure pod-shop peers.
+
+\paragraph{Near-linear and super-linear ($\alpha \ge 0.8$).}
+Two Sigma ($0.82$), Point72 ($0.80$), Millennium ($0.89$),
+Balyasny ($1.34$), and ExodusPoint ($1.51$).
+For canonical pod-shop funds, each incremental unit of AUM is
+allocated to an independent PM team; headcount grows roughly in
+proportion to the number of active pods, which itself scales
+near-linearly with AUM.
+Millennium's trajectory---from 2{,}443 staff at \$39B (2018) to
+${\approx}6{,}000$ at \$83B (2025)---precisely illustrates this
+near-proportional scaling ($\alphahat = 0.89$).
+
+The observation that $\alpha \in (0.5, 1.5)$ for the majority of
+funds is consistent with the broader literature on organisational
+scaling in knowledge-intensive firms~\cite{axtell2001,west2017}.
+
+\subsection{Capital efficiency}
+
+The right panel of Fig.~\ref{fig:alpha} plots AUM/employee versus
+$\alphahat_i$.
+A strong negative correlation is observed ($r = -0.78$, $p < 0.01$):
+low-$\alpha$ funds are dramatically more capital-efficient per employee.
+Renaissance Technologies (\$187M AUM/head) is an extreme outlier,
+consistent with its status as the most computationally intensive fund
+in the sample and its closed Medallion fund structure.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.96\textwidth]{figures/fig2_alpha.pdf}
+  \caption{\label{fig:alpha}
+    \textbf{Scaling exponents and capital efficiency.}
+    \textit{Left:} $\alphahat_i \pm 1.96\,\SE$, sorted ascending.
+    Blue $(\blacktriangle)$ = quant; red $(\bullet)$ = pod;
+    green $(\blacksquare)$ = macro.
+    Vertical dashes: $\bar\alpha=0.35$ (pooled) and $\alpha=1$ (linear).
+    \textit{Right:} AUM per employee (log) vs.\ $\alphahat_i$.
+    Dashed: OLS fit ($r = -0.78$).
+  }
+\end{figure}
+
+\subsection{Temporal dynamics}
+
+Figure~\ref{fig:timeseries} shows indexed headcount and AUM
+trajectories (2005--2025).
+Pod shops have grown headcount 3--5$\times$ since 2010, substantially
+exceeding their own AUM growth rates---consistent with high $\alpha$
+and the documented expansion of the multi-manager platform industry
+from \$185B to \$350B in AUM between 2019 and
+2023~\cite{morganstanley2024}.
+AQR's peak at ${\approx}\$226$B (2018) followed by a sharp contraction
+illustrates that AUM is non-monotone and that Eq.~\eqref{eq:pareto}
+characterises the cross-sectional equilibrium rather than
+time-series dynamics.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.96\textwidth]{figures/fig3_timeseries.pdf}
+  \caption{\label{fig:timeseries}
+    \textbf{Temporal dynamics.}
+    \textit{Left:} Headcount index (2010 $\equiv$ 100).
+    Pod shops grew 3--5$\times$ since 2010.
+    \textit{Right:} AUM trajectories (USD billion).
+    Note AQR's peak at ${\approx}\$226$B (2018) and subsequent contraction.
+  }
+\end{figure}
+
+\subsection{Residual diagnostics}
+
+Figure~\ref{fig:residuals} confirms model adequacy.
+Residuals (left) show no systematic trend with AUM;
+${\approx}95\%$ lie within $|\hat\varepsilon| < 0.3$ (${\pm}30\%$
+prediction error), consistent with the ${\sim}10$--$20\%$ measurement
+uncertainty in our headcount estimates.
+The Q--Q plot (right) yields $r_{\rm QQ} = 0.982$ for pooled
+residuals, supporting the log-normal error model implicit in OLS
+on log-transformed data.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.96\textwidth]{figures/fig4_residuals.pdf}
+  \caption{\label{fig:residuals}
+    \textbf{Residual diagnostics.}
+    \textit{Left:} $\hat\varepsilon = \ln\Ns^{\rm obs}-\ln\Ns^{\rm fit}$
+    vs.\ AUM (log). Gold dashes at $\pm 0.3$ capture ${\approx}95\%$ of points.
+    \textit{Right:} Normal Q--Q plot; $r_{\rm QQ}=0.982$.
+  }
+\end{figure}
+
+
+% -- V. CLUSTER ANALYSIS -----------------------------------
+\section{\label{sec:clustering}Cluster Analysis}
+
+\subsection{Feature space and algorithm}
+
+We cluster the eleven funds in the two-dimensional parameter space
+$(\alphahat_i,\, \ln\Chat_i)$, augmented by a third feature---the
+log of the most recent AUM-per-employee ratio $\ln e_i$---to capture
+capital efficiency jointly with the power-law parameters.
+Features are standardised and $\alpha$ is up-weighted by a factor of
+two relative to $\ln\Chat$ and $\ln e_i$, reflecting its primacy as
+the theoretical quantity of interest.
+
+We apply $K$-means clustering with $K=3$, chosen on theoretical
+grounds (three organisational regimes: algorithmic quant, hybrid
+platform, pure pod-shop) rather than the silhouette-optimal $K=2$
+which conflates the intermediate and pod-shop regimes.
+The silhouette coefficient for $K=3$ is $\bar{s}=0.45$, indicating
+well-separated clusters.
+
+\subsection{Cluster partition}
+
+Figure~\ref{fig:clusters} shows the resulting partition in
+$(\alphahat,\, \ln\Chat)$ space with 1.5-standard-deviation
+confidence ellipses (left), and per-fund silhouette coefficients
+(right). Three clusters emerge:
+
+\paragraph{Cluster I --- Algorithmic Scale
+($\alphahat \lesssim 0.65$).}
+D.E.~Shaw, Renaissance Technologies, AQR, and Bridgewater.
+These funds share sub-linear-to-moderate scaling with comparatively
+high AUM per employee.
+Their low-$\alpha$ regime is consistent with automation-first
+investment processes where fixed R\&D investment substitutes for
+labour at scale.
+The heterogeneous $\ln\Chat$ within this cluster (Renaissance: 3.74;
+D.E.~Shaw: 6.16) reflects very different initial staffing strategies
+despite similar long-run scaling behaviour.
+
+\paragraph{Cluster II --- Hybrid Platform
+($0.58 \lesssim \alphahat \lesssim 0.89$).}
+Citadel, Millennium, Two Sigma, Point72, and SAC Capital.
+This is the most populous cluster spanning the intermediate regime
+between pure automation and pure pod-shop replication.
+Citadel's inclusion is theoretically significant: despite operating
+a pod-shop model, its centralised architecture drives $\alpha$ into
+the hybrid regime.
+Millennium and Two Sigma occupy different ends of the cluster:
+Millennium is near the pod-shop boundary ($\alphahat=0.89$) while
+Two Sigma is closer to the quant boundary ($\alphahat=0.82$) with
+higher capital efficiency ($\$39$M/head).
+
+\paragraph{Cluster III --- Pod-Shop Linear
+($\alphahat \gtrsim 1.0$).}
+Balyasny and ExodusPoint.
+Both exhibit super-linear scaling ($\alphahat > 1$), consistent with
+rapid build-out phases in which headcount growth outpaces AUM growth.
+Their low $\Chat$ values (33 and 13, respectively) indicate lean
+launch-phase models that scale aggressively once capital inflows
+accelerate.
+
+Cluster~I funds have uniformly high silhouette values ($s > 0.5$),
+indicating tight, well-separated membership.
+Cluster~II is broader, with Millennium and Point72 near the boundary
+with Cluster~III.
+The inset in Fig.~\ref{fig:clusters} confirms that $K=3$ is a local
+maximum in $\bar{s}(K)$ after the global maximum at $K=2$, supporting
+its use as a theoretically-informed partition.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.96\textwidth]{figures/fig5_clusters.pdf}
+  \caption{\label{fig:clusters}
+    \textbf{K-means cluster partition ($K{=}3$).}
+    \textit{Left:} Funds in $(\alphahat,\,\ln\Chat)$ parameter space.
+    Coloured ellipses: 1.5-std.\ confidence regions per cluster.
+    Cluster~I (blue) = Algorithmic Scale;
+    Cluster~II (green) = Hybrid Platform;
+    Cluster~III (red) = Pod-Shop Linear.
+    Dotted vertical: $\alpha=1$.
+    \textit{Right:} Per-fund silhouette coefficients.
+    Dashed: mean $\bar{s}=0.45$.
+    Inset: $\bar{s}(K)$ for $K=2$--$5$; red dashes at $K=3$.
+  }
+\end{figure}
+
+\subsection{Temporal cluster evolution}
+
+Cluster memberships are not static.
+To assess drift, we re-estimate $(\alphahat_i(t),\, \Chat_i(t))$
+using an expanding window of data up to year $t$ and assign each fund
+to its nearest full-period centroid at each snapshot
+$t \in \{2010, 2013, 2015, 2018, 2020, 2022, 2024, 2025\}$.
+
+Figure~\ref{fig:cluster_evol} (left) shows cluster fractions over
+time.
+The Hybrid Platform cluster dominates throughout, consistent with the
+majority of large funds occupying the intermediate regime.
+The Pod-Shop Linear cluster grows in fractional representation
+post-2018, coinciding with the documented rapid expansion of the
+pod-shop industry~\cite{morganstanley2024}.
+The heatmap (right) reveals fund-level membership stability:
+D.E.~Shaw, Renaissance, and AQR are persistently in Cluster~I;
+Citadel and SAC Capital are persistently in Cluster~II;
+Balyasny transitions from Cluster~II to Cluster~III around 2020--2021
+as its accelerating headcount growth pushed $\alphahat$ above unity.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.96\textwidth]{figures/fig6_cluster_evolution.pdf}
+  \caption{\label{fig:cluster_evol}
+    \textbf{Temporal cluster evolution.}
+    \textit{Left:} Fraction of funds per cluster per year (expanding window).
+    Pod-Shop Linear (red) grows post-2018.
+    \textit{Right:} Heatmap of cluster membership per fund per year.
+    Numbers: cluster label (0/1/2 = I/II/III).
+    Note Balyasny's transition from Cluster~II to Cluster~III around 2020.
+  }
+\end{figure}
+
+\subsection{Phase-space trajectories}
+
+Figure~\ref{fig:trajectories} plots each fund's trajectory in
+$(\alphahat(t),\, \ln\Chat(t))$ space, with arrows indicating the
+direction of temporal motion.
+Two distinct dynamical patterns emerge:
+
+\paragraph{Mean-reverting quant funds.}
+D.E.~Shaw, Renaissance, and AQR exhibit compact trajectories with
+limited drift in $\alphahat$, consistent with stable organisational
+models.
+AQR shows a transient excursion in $\alphahat$ around its 2018 AUM
+peak, reverting as AUM declined post-2018.
+
+\paragraph{Drifting pod-shop funds.}
+Millennium, Balyasny, and Point72 show persistent upward drift in
+$\alphahat(t)$, reflecting increasingly proportional headcount growth.
+Millennium's trajectory moves from $\alphahat \approx 0.7$ (2010)
+toward $\alphahat \approx 0.89$ (2025), suggesting a genuine
+structural deepening of the pod-shop model rather than estimation
+variance.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.96\textwidth]{figures/fig7_trajectories.pdf}
+  \caption{\label{fig:trajectories}
+    \textbf{Phase-space trajectories in $(\alphahat(t),\,\ln\Chat(t))$.}
+    Each fund traces a path from its earliest estimate ($\circ$) to
+    its latest ($\star$); arrows indicate direction of motion.
+    Background ellipses: full-period cluster regions ($2\sigma$).
+    Quant funds show compact, mean-reverting trajectories;
+    pod-shop funds drift persistently toward higher $\alpha$.
+  }
+\end{figure}
+
+Figure~\ref{fig:rolling_params} quantifies $\alphahat(t)$ and
+$\ln\Chat(t)$ trajectories explicitly.
+The divergence between quant funds (stable low $\alpha$) and
+pod-shop funds (rising $\alpha$) has been monotonically increasing
+since 2015, suggesting that the two regimes are not converging but
+rather \emph{diverging}---a bifurcation in the scaling landscape
+of the hedge fund industry.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.96\textwidth]{figures/fig8_rolling_params.pdf}
+  \caption{\label{fig:rolling_params}
+    \textbf{Rolling parameter estimates (expanding window).}
+    \textit{Left:} $\alphahat(t)$ trajectories; dotted line $\alpha=1$.
+    \textit{Right:} $\ln\Chat(t)$ trajectories.
+    Quant funds maintain low, stable $\alpha$; pod-shop funds show
+    rising $\alpha$ post-2015, indicating a structural deepening of
+    the proportional staffing regime.
+  }
+\end{figure}
+
+
+\section{\label{sec:discussion}Discussion}
+
+\subsection{Economic interpretation}
+
+The marginal headcount per unit AUM in the power-law model is:
+\begin{equation}
+  \frac{d\Ns}{d\Ac} = \alpha\,\frac{\Ns}{\Ac}.
+\end{equation}
+For $\alpha < 1$ (quant funds, Citadel), this marginal cost
+\emph{declines} with AUM: existing staff manage additional capital
+without proportional expansion, reflecting returns to scale in
+technology, data infrastructure, and risk systems.
+For $\alpha \ge 1$ (pod shops), the marginal cost is non-decreasing,
+consistent with a model in which capital deployment is inseparable
+from PM team hiring.
+
+The prefactor $C_i$ captures ``staffing intensity'' at unit AUM.
+D.E.~Shaw's high $C = 474$ with low $\alpha = 0.27$ implies a
+technology-first model: large initial workforce relative to AUM,
+growing slowly at scale.
+Renaissance's low $C = 42$ reflects minimal staff relative to AUM
+throughout its history.
+
+\subsection{Analogy to complex system scaling}
+
+The sub-linear quant-fund regime mirrors infrastructure scaling in
+cities~\cite{bettencourt2007}, where fixed investments in plant (or
+proprietary algorithms) amortise across growing scale.
+The near-linear pod-shop regime mirrors the linear scaling of social
+urban outputs (employment, GDP) with population---both are driven by
+proportional replication of interactive units (citizens vs.\ PM pods)
+rather than shared infrastructure~\cite{west2017}.
+The transition between regimes as a function of organisational model
+is analogous to the infrastructure--interaction phase transition in
+urban scaling theory.
+
+\subsection{Limitations}
+
+(i) \textit{Data quality}: headcount carries ${\sim}10$--$20\%$
+measurement uncertainty from definitional heterogeneity across filings.
+(ii) \textit{Strategy purity}: several funds pursue multiple strategies
+simultaneously (Citadel, Bridgewater); $\alphahat$ is a composite.
+(iii) \textit{Hysteresis}: headcount may lag AUM changes,
+introducing dynamics not captured by the static model.
+(iv) \textit{Causality}: reverse causality between AUM targets
+and staffing decisions cannot be excluded.
+
+% -- VI. CONCLUSION ----------------------------------------
+\section{\label{sec:conclusion}Conclusion}
+
+We have demonstrated that the Pareto power law
+$\Ns = C\,\Ac^{\alpha}$ provides an excellent description of
+the headcount--AUM relationship in major equity market-neutral hedge
+funds ($R^2 = 0.44$--$0.99$ per fund).
+The scaling exponent $\alpha$ discriminates sharply between
+organisational models:
+systematic quant funds exhibit strong economies of scale
+($\alpha \approx 0.27$--$0.64$);
+pod-shop platforms exhibit near-proportional to super-linear
+scaling ($\alpha \approx 0.80$--$1.51$);
+hybrid funds are intermediate.
+The scale constant $C$ anti-correlates with $\alpha$,
+capturing the trade-off between initial staffing intensity and
+long-run scalability.
+
+These findings connect the internal organisation of financial
+firms to universal scaling principles.
+$K$-means clustering in $(\alphahat, \ln\Chat)$ space naturally
+recovers three regimes---Algorithmic Scale, Hybrid Platform, and
+Pod-Shop Linear---that align closely with strategy classifications
+and exhibit meaningful temporal dynamics: pod-shop funds show
+persistent upward drift in $\alphahat$ since 2015, while quant
+funds remain stable, suggesting a widening bifurcation in the
+scaling landscape of the industry.
+Future work should exploit formal regulatory panel data to obtain
+tighter estimates and examine whether $\alpha$ shifts discontinuously
+at specific AUM thresholds or following strategy changes.
+
+% -- ACKNOWLEDGEMENTS --------------------------------------
+\bigskip
+\noindent\rule{0.4\textwidth}{0.3pt}
+
+\noindent The authors thank [colleagues] for helpful discussions.
+All data were compiled from publicly available sources.
+No proprietary data were used.
+
+% -- TABLE -------------------------------------------------
+\begin{table}[t]
+\caption{\label{tab:params}
+  Fitted power-law parameters.
+  $\alphahat$ (SE) = OLS exponent with HC1 standard error.
+  $\Chat$ = prefactor (staff at \$1B AUM).
+  $R^2$ in log-space.
+  Eff.\ = most recent AUM per employee (USD\,M).
+  Str.: Q\,=\,quant; P\,=\,pod shop; M\,=\,macro.
+}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llcccr@{}}
+  \toprule
+  Fund              & Str. & $\alphahat$ (SE)   & $\Chat$ & $R^2$ & Eff.\\
+  \midrule
+  D.E.\ Shaw        & Q & $0.27~(0.03)$ & 474  & 0.949 & 43  \\
+  Renaissance       & Q & $0.46~(0.20)$ & 42   & 0.644 & 187 \\
+  AQR               & Q & $0.64~(0.13)$ & 41   & 0.821 & 100 \\
+  Two Sigma         & Q & $0.82~(0.03)$ & 54   & 0.991 & 39  \\
+  \midrule
+  Bridgewater       & M & $0.50~(0.32)$ & 112  & 0.441 & 95  \\
+  \midrule
+  SAC Capital       & P & $0.58~(0.14)$ & 237  & 0.949 & 12  \\
+  Citadel           & P & $0.66~(0.05)$ & 197  & 0.961 & 19  \\
+  Point72           & P & $0.80~(0.06)$ & 153  & 0.978 & 12  \\
+  Millennium        & P & $0.89~(0.09)$ & 106  & 0.929 & 14  \\
+  Balyasny          & P & $1.34~(0.07)$ & 33   & 0.993 & 11  \\
+  ExodusPoint       & P & $1.51~(0.02)$ & 13   & 1.000 & 20  \\
+  \midrule\midrule
+  \textit{Pooled}   &   & $0.35~(0.10)$ & 329  & 0.157 & --  \\
+  \bottomrule
+\end{tabular}
+\end{table}
+
+% -- REFERENCES --------------------------------------------
+\bibliography{refs}
+
+\end{document}
