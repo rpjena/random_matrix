@@ -369,8 +369,8 @@ iran_2026_extended_stalemate:
     - USD/INR (INR)
     - EMBI Sovereign Spread
   - step: 8
-    mechanism: Safe-haven FX divergence: JPY and CHF bid; petrocurrencies (NOK, CAD)
-      benefit from oil but USD safe-haven partially offsets
+    mechanism: "Safe-haven FX divergence — JPY and CHF bid; petrocurrencies (NOK, CAD)
+      benefit from oil but USD safe-haven partially offsets"
     affects:
     - USD/JPY (6J)
     - USD/NOK (NOK)
@@ -504,8 +504,8 @@ iran_2026_extended_stalemate:
     USD/JPY (6J):
       tier: 2
       direction: '-'
-      mechanism: Safe-haven bid for JPY; Japan own oil vulnerability caps appreciation
-        magnitude; net: JPY gradually strengthens; USD/JPY target 147.5 from 149
+      mechanism: "Safe-haven bid for JPY; Japan own oil vulnerability caps appreciation
+        magnitude; net JPY gradually strengthens; USD/JPY target 147.5 from 149"
       prior_mean: -1.0
       prior_strength: moderate
     USD/NOK (NOK):
@@ -884,8 +884,8 @@ iran_2026_full_escalation:
     Nikkei 225 (NK):
       tier: 2
       direction: '-'
-      mechanism: Japan: ~90% oil imported via Hormuz; extreme import shock + extreme
-        JPY safe-haven surge = double whammy at maximal severity; target −17%
+      mechanism: "Japan — ~90% oil imported via Hormuz; extreme import shock + extreme
+        JPY safe-haven surge = double whammy at maximal severity; target −17%"
       prior_mean: -16.9
       prior_strength: moderate
     S&P Energy Sector (XLE):
