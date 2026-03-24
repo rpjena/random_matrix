@@ -1,0 +1,34 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# APPEND TO: events.yaml
+# Three forward scenario event types anchored to the 2026 Iran War.
+# State vector at anchor date 2026-03-22:
+#   Brent ~$112 | WTI ~$107 | TTF ~€62 | Gold ~$5,050
+#   S&P 500 ~6,560 | VIX ~24 | DXY ~105.5
+# Bifurcation driver: Trump 48-hr ultimatum (power plants) expires 2026-03-23/24.
+# These three types are mutually exclusive forward branches of the same root event.
+# Scenario probabilities: A (18%) | B (55%) | C (27%)
+# ─────────────────────────────────────────────────────────────────────────────
+
+iran_2026_rapid_resolution:
+  description: "2026 Iran war ceasefire — Hormuz reopens, oil shock reverses sharply. Structural TTF and Brent floor above pre-war due to permanent Qatar LNG capacity loss."
+  shock_direction_oil: "down"
+  instances:
+    - name: "Iran 2026 Rapid Resolution"
+      t0: "2026-03-22"
+      notes: "Ceasefire/back-channel deal by ~Apr 5–12 reopens Hormuz; Brent falls from $112 toward $75–85 but structural floor held above pre-war $65 (Qatar LNG 17% capacity offline, 3–5yr repair). S&P +6%; VIX normalises to ~18. TTF structural floor ~€40–50 — does not revert to pre-war €33."
+
+iran_2026_extended_stalemate:
+  description: "2026 Iran war stalemate — Hormuz remains ~10% open via Navy escort corridors; oil grinds higher as Gulf storage fills and production curtailments compound the supply shock. Stagflation channel dominates."
+  shock_direction_oil: "up"
+  instances:
+    - name: "Iran 2026 Extended Stalemate"
+      t0: "2026-03-22"
+      notes: "No ceasefire before ~Jun 2026; Brent grinds to $120–140 as Gulf storage fills (~Apr 5–15) and Iraq/Kuwait enforce compulsory production shutdowns. TTF spikes to €80–100 as Europe misses summer gas refill season. S&P −10–12%; Goldman recession odds rise to 35–40%. Iranian oil sanctions waiver expires Apr 19, removing one supply-side offset. [WINDOW FLAG: compounding mechanism worsens through Apr–May; 30-day endpoint understates eventual peak in B scenario]"
+
+iran_2026_full_escalation:
+  description: "2026 Iran war full escalation — US strikes Iranian power grid; Iran mines Hormuz and destroys Gulf energy infrastructure. Oil supply shock becomes systemic; stagflation/recession dynamics dominate all asset classes."
+  shock_direction_oil: "up"
+  instances:
+    - name: "Iran 2026 Full Escalation"
+      t0: "2026-03-22"
+      notes: "US executes power-plant strike threat; Iran mines Hormuz and attacks Aramco/UAE/Qatar terminals. Brent surges to $150–200 — Saudi East-West pipeline (1–1.5 mb/d) cannot replace 20 mb/d Hormuz flow. TTF spikes to €100–130; S&P −20–30%; VIX 40–55; USD/INR approaches BoP crisis territory. Oxford Economics 'breaking point' at $140+ for 2 months. [WINDOW FLAG: 30-day window captures peak shock but not full EM sovereign contagion, which lags 4–8 weeks]"

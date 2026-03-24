@@ -1,0 +1,916 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# APPEND TO: transmission_map.yaml
+# Three forward scenario transmission maps — 2026 Iran War.
+# Prior means are expressed as % change from the 2026-03-22 state vector
+# (NOT from pre-event Feb 27 baseline — the shock is already realised).
+# New instruments added: TTF Nat Gas (TTF) already exists in russia_ukraine.
+# New additions: USD/INR (INR), EMBI Sovereign Spread.
+# ─────────────────────────────────────────────────────────────────────────────
+
+iran_2026_rapid_resolution:
+  description: >
+    Ceasefire or back-channel deal reopens the Strait of Hormuz by approximately
+    April 5–12. Oil supply shock reverses sharply as tanker traffic resumes.
+    Risk premium deflates across energy and geopolitical assets; Fed resumes
+    rate-cut cycle. Critical caveat: Qatar LNG capacity is 17% permanently offline
+    (3–5yr repair per QatarEnergy), creating a structural floor on both TTF
+    (€40–50) and Brent (above the pre-war Goldman fair value of $65) that prevents
+    a full reversion to pre-war levels. The primary transmission in this scenario
+    runs in reverse: oil down → products down → petrocurrencies weaken → risk
+    assets rally → USD safe-haven deflates → Fed cuts resume.
+  primary_risk_factors:
+  - Brent Crude (CB)
+  - TTF Nat Gas (TTF)
+  causal_chain:
+  - step: 1
+    mechanism: Hormuz reopens → tanker traffic resumes → Brent/WTI fall sharply
+      from $112/$107 current levels toward $75–85/$70–80 structural floor
+    affects:
+    - Brent Crude (CB)
+    - WTI Crude (CL)
+    - Dubai Crude (DC)
+    - OVX Oil Vol (vol pts)
+  - step: 2
+    mechanism: Crude falls → refinery feedstock costs fall → products follow with
+      lag; crack spreads normalise from elevated levels
+    affects:
+    - RBOB Gasoline (RB)
+    - ULSD Heating Oil (HO)
+    - ICE Gasoil (QS)
+  - step: 3
+    mechanism: Partial Qatar LNG flow resumes but 17% capacity permanently offline
+      → TTF falls from €62 but structural floor ~€40–50 prevents full reversion
+    affects:
+    - TTF Nat Gas (TTF)
+  - step: 4
+    mechanism: Oil falls → petrocurrency petrocurrencies (NOK, CAD) lose oil premium
+      → USD/NOK and USD/CAD rise
+    affects:
+    - USD/NOK (NOK)
+    - USD/CAD (6C)
+  - step: 5
+    mechanism: Risk-on relief rally — geopolitical risk premium deflates → equities
+      rally, VIX normalises, USD safe-haven bid reverses
+    affects:
+    - S&P 500 (ES)
+    - Euro STOXX 50 (FESX)
+    - DAX 40 (FDAX)
+    - Nikkei 225 (NK)
+    - VIX (vol pts)
+    - VSTOXX (vol pts)
+    - USD Index DXY
+  - step: 6
+    mechanism: Inflation expectations fall as oil shock reverses → Fed cut cycle
+      resumes (first cut returns to June timeline) → US yields fall; EUR recovers
+      as ECB also resumes
+    affects:
+    - US 10Y Yield (ZN)
+    - EUR/USD (6E)
+    - USD/JPY (6J)
+  - step: 7
+    mechanism: EM oil importers get current account relief → INR, TRY, KRW recover;
+      EMBI spreads tighten on reduced BoP stress
+    affects:
+    - USD/INR (INR)
+    - EMBI Sovereign Spread
+  - step: 8
+    mechanism: Oil falls sharply → US HY energy issuers see revenue compression →
+      HY E&P spreads WIDEN from currently compressed levels back toward pre-war
+    affects:
+    - HY E&P Credit Spread
+    - S&P Energy Sector (XLE)
+  instruments:
+    Brent Crude (CB):
+      tier: 1
+      direction: '-'
+      mechanism: Direct — Hormuz reopening restores ~20 mb/d; Brent falls from $112
+        current; structural floor ~$75–85 due to infrastructure damage risk premium
+      prior_mean: -29.0
+      prior_strength: tight
+    WTI Crude (CL):
+      tier: 1
+      direction: '-'
+      mechanism: Follows Brent on resolution; US net exporter less affected but
+        globally repriced; falls from $107 current
+      prior_mean: -30.0
+      prior_strength: tight
+    Dubai Crude (DC):
+      tier: 1
+      direction: '-'
+      mechanism: ME benchmark reprices immediately on Hormuz reopening; Asian buyers
+        return to Hormuz routing
+      prior_mean: -28.0
+      prior_strength: tight
+    TTF Nat Gas (TTF):
+      tier: 1
+      direction: '-'
+      mechanism: Partial Qatari LNG flow resumes but 17% capacity permanently offline
+        (3–5yr repair) → TTF falls from €62 but cannot revert to pre-war €33;
+        structural floor ~€40–50
+      prior_mean: -27.0
+      prior_strength: moderate
+    RBOB Gasoline (RB):
+      tier: 2
+      direction: '-'
+      mechanism: Crude falls → feedstock cost falls → RBOB follows with 1–2 day lag;
+        crack spreads normalise
+      prior_mean: -21.0
+      prior_strength: moderate
+    ULSD Heating Oil (HO):
+      tier: 2
+      direction: '-'
+      mechanism: Crude falls; ME distillate exports resume → global diesel tightness
+        resolves; ULSD falls from elevated levels
+      prior_mean: -25.0
+      prior_strength: moderate
+    ICE Gasoil (QS):
+      tier: 2
+      direction: '-'
+      mechanism: European diesel benchmark; tracks HO lower; ME gasoil flows resume
+      prior_mean: -24.0
+      prior_strength: moderate
+    OVX Oil Vol (vol pts):
+      tier: 1
+      direction: '-'
+      mechanism: Hormuz binary risk resolves → oil vol collapses from ~45 current
+        toward ~20–22; fastest-moving asset on resolution news
+      prior_mean: -23.0
+      prior_strength: tight
+    S&P 500 (ES):
+      tier: 2
+      direction: +
+      mechanism: Relief rally — geopolitical risk premium deflates; Fed cut cycle
+        resumes; energy cost drag reverses; S&P target +6% from current 6,560
+      prior_mean: 6.0
+      prior_strength: moderate
+    VIX (vol pts):
+      tier: 2
+      direction: '-'
+      mechanism: Geopolitical uncertainty resolves → VIX normalises from ~24 to
+        ~18; rapid move given non-financial nature of crisis
+      prior_mean: -6.0
+      prior_strength: tight
+    Euro STOXX 50 (FESX):
+      tier: 2
+      direction: +
+      mechanism: Europe relief disproportionate — both oil AND TTF fall; ECB resumes
+        cutting; European recession risk recedes
+      prior_mean: 5.7
+      prior_strength: moderate
+    DAX 40 (FDAX):
+      tier: 2
+      direction: +
+      mechanism: Germany most exposed to TTF shock; largest beneficiary of TTF
+        normalisation; industrial sector relief
+      prior_mean: 6.0
+      prior_strength: moderate
+    Nikkei 225 (NK):
+      tier: 2
+      direction: +
+      mechanism: Japan oil import bill falls sharply; JPY weakens (risk-on) → export
+        competitiveness recovers; double reversal of double whammy
+      prior_mean: 5.2
+      prior_strength: moderate
+    VSTOXX (vol pts):
+      tier: 2
+      direction: '-'
+      mechanism: European vol mirrors VIX; falls on resolution; had been elevated by
+        both geopolitical risk and TTF crisis
+      prior_mean: -6.0
+      prior_strength: moderate
+    USD Index DXY:
+      tier: 2
+      direction: '-'
+      mechanism: Safe-haven deflates on ceasefire; Fed cut expectations return →
+        rate differential narrows; USD falls from 105.5 current
+      prior_mean: -2.8
+      prior_strength: moderate
+    EUR/USD (6E):
+      tier: 2
+      direction: +
+      mechanism: EUR recovers as ECB resumes cutting cycle; European energy import
+        bill falls; current account relief
+      prior_mean: 2.9
+      prior_strength: moderate
+    USD/JPY (6J):
+      tier: 2
+      direction: +
+      mechanism: Risk-on unwinds JPY safe-haven; Japan oil import relief; JPY
+        weakens → USD/JPY rises from 149 current
+      prior_mean: 2.7
+      prior_strength: moderate
+    USD/NOK (NOK):
+      tier: 2
+      direction: +
+      mechanism: Oil falls → Norway terms of trade deteriorate → NOK weakens →
+        USD/NOK rises; reversal of petrocurrency benefit
+      prior_mean: 2.8
+      prior_strength: moderate
+    USD/CAD (6C):
+      tier: 2
+      direction: +
+      mechanism: Oil falls → CAD loses commodity premium → weakens → USD/CAD rises;
+        weaker effect than NOK given broader Canadian economy
+      prior_mean: 2.1
+      prior_strength: moderate
+    Gold (GC):
+      tier: 2
+      direction: +
+      mechanism: Partial geopolitical risk premium retained even on resolution;
+        gold does not fully revert as structural uncertainty persists (no full
+        pre-war order restored); target ~$5,300 from current $5,050
+      prior_mean: 5.0
+      prior_strength: moderate
+    US 10Y Yield (ZN):
+      tier: 2
+      direction: '-'
+      mechanism: Oil falls → inflation expectations ease → Fed cut returns to June
+        timeline → short end anchors lower → 10Y follows; target ~3.88% from 4.20%
+      prior_mean: -32.0
+      prior_strength: moderate
+    S&P Energy Sector (XLE):
+      tier: 2
+      direction: '-'
+      mechanism: Oil revenue falls sharply → E&P earnings compress → XLE falls
+        from current elevated levels; reversal of scenario B/C benefit
+      prior_mean: -6.5
+      prior_strength: moderate
+    HY E&P Credit Spread:
+      tier: 2
+      direction: +
+      mechanism: Oil falls from $112 → US energy HY revenue compression → spreads
+        WIDEN from currently compressed ~295 bps back toward pre-war levels;
+        counterintuitive relative to broad credit (which tightens)
+      prior_mean: 85.0
+      prior_strength: moderate
+    US IG Credit Spread:
+      tier: 3
+      direction: '-'
+      mechanism: Risk-on relief → IG spreads tighten broadly; energy cost drag
+        on non-energy IG issuers resolves
+      prior_mean: -15.0
+      prior_strength: diffuse
+    Copper (HG):
+      tier: 3
+      direction: +
+      mechanism: Demand destruction fears reverse; global industrial activity recovery
+        pricing → copper rallies from depressed levels
+      prior_mean: 7.6
+      prior_strength: diffuse
+    USD/INR (INR):
+      tier: 3
+      direction: '-'
+      mechanism: India oil import bill falls sharply → CA pressure eases → INR
+        recovers; USD/INR falls from ~89 current
+      prior_mean: -1.7
+      prior_strength: diffuse
+    EMBI Sovereign Spread:
+      tier: 3
+      direction: '-'
+      mechanism: EM oil-importer BoP stress resolves → risk-on → EMBI spreads
+        tighten from ~350 bps current
+      prior_mean: -80.0
+      prior_strength: diffuse
+    VSTOXX (vol pts):
+      tier: 2
+      direction: '-'
+      mechanism: European vol normalises on dual relief — geopolitical risk and TTF
+        crisis both ease; falls from elevated ~26 current
+      prior_mean: -6.0
+      prior_strength: moderate
+    Henry Hub Nat Gas (NG):
+      tier: 4
+      direction: '?'
+      mechanism: EXCLUDE — US domestic gas insulated from Hormuz; EIA STEO confirmed
+        relatively unaffected throughout the shock
+    Wheat (ZW):
+      tier: 4
+      direction: '?'
+      mechanism: EXCLUDE — No direct Iran-resolution channel to wheat; agriculture
+        transmission belongs in russia_ukraine
+    Corn (ZC):
+      tier: 4
+      direction: '?'
+      mechanism: EXCLUDE — No direct channel at 30-day horizon
+    Silver (SI):
+      tier: 4
+      direction: '?'
+      mechanism: EXCLUDE — Industrial silver no systematic resolution channel
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+iran_2026_extended_stalemate:
+  description: >
+    No ceasefire before approximately June 2026. US Navy establishes partial
+    escort corridors — Hormuz ~10% open but not normalised. Oil compounds on
+    two interacting mechanisms: (1) Hormuz physical blockade ongoing; (2) Gulf
+    storage filling as production curtailments begin (~April 5–15, Iraq/Kuwait).
+    The stalemate is NOT a plateau — it is an actively worsening supply picture.
+    Iranian oil sanctions waiver expires April 19, removing one partial offset.
+    European summer gas refill season (April–September) cannot proceed normally
+    with Hormuz closed, driving TTF toward Goldman's €80–100 estimate for a
+    one-month full closure. Stagflation channel dominates: higher energy costs
+    → higher CPI → Fed on hold → USD sustained → gold range-bound (competing
+    forces still balanced). Dallas Fed model: −2.9pp annualised Q2 GDP.
+  primary_risk_factors:
+  - Brent Crude (CB)
+  - TTF Nat Gas (TTF)
+  - OVX Oil Vol (vol pts)
+  causal_chain:
+  - step: 1
+    mechanism: Hormuz remains ~10% open; Navy escort corridors insufficient →
+      Brent/WTI grind higher from $112/$107 current toward $120–140/$115–135
+      as the market's two-week hard deadline (~Apr 5) is breached
+    affects:
+    - Brent Crude (CB)
+    - WTI Crude (CL)
+    - Dubai Crude (DC)
+    - OVX Oil Vol (vol pts)
+  - step: 2
+    mechanism: Gulf storage fills by ~Apr 5–15 → Iraq and Kuwait enforce compulsory
+      production shutdowns → supply destruction compounds Hormuz effect; different
+      from a shipping blockade — harder to reverse
+    affects:
+    - Brent Crude (CB)
+    - WTI Crude (CL)
+    - Dubai Crude (DC)
+  - step: 3
+    mechanism: Crude up → products follow via cost pass-through; diesel crack spreads
+      maintain elevated levels as ME distillate exports remain disrupted
+    affects:
+    - RBOB Gasoline (RB)
+    - ULSD Heating Oil (HO)
+    - ICE Gasoil (QS)
+  - step: 4
+    mechanism: European summer gas refill season (Apr–Sep) cannot access Qatari LNG
+      via Hormuz; storage at 30% cannot be refilled → TTF spikes toward €80–100
+    affects:
+    - TTF Nat Gas (TTF)
+  - step: 5
+    mechanism: Oil inflation → CPI → Fed on hold (Goldman first cut pushed to Sep);
+      USD sustained by dual support; breakevens rise; nominal yields rise modestly
+    affects:
+    - USD Index DXY
+    - US 10Y Yield (ZN)
+  - step: 6
+    mechanism: Stagflation drag → equities grind lower over 4–6 weeks; energy sector
+      bifurcation widens (XLE up; airlines, industrials down)
+    affects:
+    - S&P 500 (ES)
+    - Euro STOXX 50 (FESX)
+    - DAX 40 (FDAX)
+    - Nikkei 225 (NK)
+    - S&P Energy Sector (XLE)
+    - VIX (vol pts)
+  - step: 7
+    mechanism: EM oil importers face sustained CA deterioration as oil bill stays
+      elevated; lagged FX and spread widening accelerates in weeks 3–4
+    affects:
+    - USD/INR (INR)
+    - EMBI Sovereign Spread
+  - step: 8
+    mechanism: Safe-haven FX divergence: JPY and CHF bid; petrocurrencies (NOK, CAD)
+      benefit from oil but USD safe-haven partially offsets
+    affects:
+    - USD/JPY (6J)
+    - USD/NOK (NOK)
+    - USD/CAD (6C)
+    - EUR/USD (6E)
+  instruments:
+    Brent Crude (CB):
+      tier: 1
+      direction: +
+      mechanism: Ongoing Hormuz closure + Gulf production curtailments compound;
+        market hard deadline (~Apr 5) breach triggers another leg; target $120–140
+        from $112 current
+      prior_mean: 16.0
+      prior_strength: tight
+    WTI Crude (CL):
+      tier: 1
+      direction: +
+      mechanism: Follows Brent; US producers benefit from higher prices; not Hormuz-
+        exposed operationally; target $115–135 from $107 current
+      prior_mean: 17.0
+      prior_strength: tight
+    Dubai Crude (DC):
+      tier: 1
+      direction: +
+      mechanism: ME benchmark; Asian buyers unable to access Hormuz routing; spot
+        premiums widen further
+      prior_mean: 15.0
+      prior_strength: tight
+    TTF Nat Gas (TTF):
+      tier: 1
+      direction: +
+      mechanism: European summer refill season blocked; storage at 30% cannot be
+        replenished via Hormuz; Goldman estimate €80–100 for one-month full closure;
+        target +45% from current €62
+      prior_mean: 45.0
+      prior_strength: moderate
+    OVX Oil Vol (vol pts):
+      tier: 1
+      direction: +
+      mechanism: Hormuz binary risk sustained; no resolution signal → OVX structurally
+        elevated; stalemate uncertainty keeps vol above 50; target +10 pts from ~45
+      prior_mean: 10.0
+      prior_strength: tight
+    RBOB Gasoline (RB):
+      tier: 2
+      direction: +
+      mechanism: Crude sustained at $130 level → feedstock cost elevated; US retail
+        gasoline above $4/gal maintained and extending higher
+      prior_mean: 26.0
+      prior_strength: moderate
+    ULSD Heating Oil (HO):
+      tier: 2
+      direction: +
+      mechanism: ME distillate exports remain disrupted; crack spreads stay wide;
+        diesel demand inelastic → prices stay elevated
+      prior_mean: 16.0
+      prior_strength: moderate
+    ICE Gasoil (QS):
+      tier: 2
+      direction: +
+      mechanism: European diesel benchmark; tracks HO; ME gasoil flows disrupted;
+        TTF crisis adds energy cost pressure on refinery margins
+      prior_mean: 15.0
+      prior_strength: moderate
+    S&P 500 (ES):
+      tier: 2
+      direction: '-'
+      mechanism: Stagflation drag confirmed — 4 consecutive weekly declines already;
+        further earnings compression as oil costs flow through margins; Fed on hold;
+        target −10 to −12% from current 6,560
+      prior_mean: -10.4
+      prior_strength: moderate
+    VIX (vol pts):
+      tier: 2
+      direction: +
+      mechanism: Stalemate uncertainty structurally elevates vol; no financial-crash
+        panic (no bank failures) so VIX stays in 28–35 range; target +7 pts from 24
+      prior_mean: 7.0
+      prior_strength: moderate
+    Euro STOXX 50 (FESX):
+      tier: 2
+      direction: '-'
+      mechanism: Europe uniquely exposed — oil shock + TTF crisis + ECB rate-hold
+        constraint; industrial recession risk rising; target −6% from current ~530
+      prior_mean: -6.2
+      prior_strength: moderate
+    DAX 40 (FDAX):
+      tier: 2
+      direction: '-'
+      mechanism: Germany most exposed in EU — industrial/auto energy cost shock;
+        TTF doubling hits chemical and steel margins directly; −7% target
+      prior_mean: -7.0
+      prior_strength: moderate
+    Nikkei 225 (NK):
+      tier: 2
+      direction: '-'
+      mechanism: Japan double whammy continues — oil import bill elevated + JPY
+        strengthening hurts exporter earnings; target −6.5% from current 38,500
+      prior_mean: -6.5
+      prior_strength: moderate
+    S&P Energy Sector (XLE):
+      tier: 2
+      direction: +
+      mechanism: US E&P revenue beneficiary of sustained $130 oil; not Hormuz-exposed
+        operationally; outperforms broader S&P significantly; target +13%
+      prior_mean: 13.0
+      prior_strength: moderate
+    VSTOXX (vol pts):
+      tier: 2
+      direction: +
+      mechanism: European vol elevated by both geopolitical stalemate and TTF storage
+        crisis; may lead VIX in European-origin gas stress
+      prior_mean: 7.0
+      prior_strength: moderate
+    Gold (GC):
+      tier: 2
+      direction: '?'
+      mechanism: Empirically confirmed anomaly — Day 1 surge retraced to flat by
+        Week 2; USD safe-haven and inflation→rate-hold channels actively compete
+        with geopolitical premium; net direction remains near-zero; target ~$5,250
+        (+4%) from current $5,050
+      prior_mean: 4.0
+      prior_strength: diffuse
+    USD Index DXY:
+      tier: 2
+      direction: +
+      mechanism: Dual support confirmed — flight-to-safety + Fed on hold (Goldman
+        pushed first cut to Sep); both channels reinforce; target +2% from 105.5
+      prior_mean: 1.9
+      prior_strength: moderate
+    USD/JPY (6J):
+      tier: 2
+      direction: '-'
+      mechanism: Safe-haven bid for JPY; Japan own oil vulnerability caps appreciation
+        magnitude; net: JPY gradually strengthens; USD/JPY target 147.5 from 149
+      prior_mean: -1.0
+      prior_strength: moderate
+    USD/NOK (NOK):
+      tier: 2
+      direction: '-'
+      mechanism: Oil elevated → Norway terms of trade improve → NOK bid; partially
+        offset by USD safe-haven; net NOK appreciation; USD/NOK target 10.30 from 10.60
+      prior_mean: -2.8
+      prior_strength: moderate
+    USD/CAD (6C):
+      tier: 2
+      direction: '-'
+      mechanism: Canada oil exporter benefits from elevated prices; weaker effect
+        than NOK; USD/CAD target 1.40 from 1.42 current
+      prior_mean: -1.4
+      prior_strength: moderate
+    EUR/USD (6E):
+      tier: 2
+      direction: '-'
+      mechanism: Europe faces oil + TTF shock simultaneously; ECB constrained from
+        cutting by inflation; USD relative strength compounds; EUR/USD target 1.010
+        from 1.025 current
+      prior_mean: -1.5
+      prior_strength: moderate
+    US 10Y Yield (ZN):
+      tier: 3
+      direction: +
+      mechanism: Inflation repricing dominates flight-to-quality in stalemate; oil
+        sustained → CPI elevated → Fed on hold confirmed → 10Y breakevens rise;
+        nominal yield target +22 bps from 4.20% to ~4.42%
+      prior_mean: 22.0
+      prior_strength: diffuse
+    HY E&P Credit Spread:
+      tier: 2
+      direction: '-'
+      mechanism: Sustained $130 oil → strong US energy HY revenue → spreads COMPRESS
+        from current ~295 bps; counterintuitive vs broad HY but well-documented;
+        target −45 bps
+      prior_mean: -45.0
+      prior_strength: moderate
+    US IG Credit Spread:
+      tier: 3
+      direction: +
+      mechanism: Stagflation drag weighs on non-energy IG issuers; oil cost inflation
+        compresses margins; moderate widening expected
+      prior_mean: 25.0
+      prior_strength: diffuse
+    Copper (HG):
+      tier: 3
+      direction: '-'
+      mechanism: Demand destruction leading indicator; global industrial slowdown
+        pricing deepens; target −6% from current $4.37
+      prior_mean: -6.2
+      prior_strength: diffuse
+    USD/INR (INR):
+      tier: 3
+      direction: +
+      mechanism: India sustained oil import bill at $130 oil → CA deterioration
+        accumulates → INR weakens; RBI buffer insufficient; USD/INR target ~93 (+4.5%)
+      prior_mean: 4.5
+      prior_strength: moderate
+    EMBI Sovereign Spread:
+      tier: 3
+      direction: +
+      mechanism: EM oil-importer sovereign stress builds with lag (weeks 3–4 of
+        stalemate); fiscal + FX dual shock; EMBI target +60 bps from ~350 current
+      prior_mean: 60.0
+      prior_strength: diffuse
+    Henry Hub Nat Gas (NG):
+      tier: 4
+      direction: '?'
+      mechanism: EXCLUDE — EIA STEO confirmed US domestic gas relatively unaffected;
+        US LNG export upside marginal vs Hormuz supply loss
+    Wheat (ZW):
+      tier: 4
+      direction: '?'
+      mechanism: EXCLUDE — No systematic Iran-stalemate channel to wheat
+    Corn (ZC):
+      tier: 4
+      direction: '?'
+      mechanism: EXCLUDE — No direct channel at 30-day horizon
+    Silver (SI):
+      tier: 4
+      direction: '?'
+      mechanism: EXCLUDE — Industrial demand destruction and safe-haven partially
+        offset; no systematic stalemate channel
+
+# ─────────────────────────────────────────────────────────────────────────────
+
+iran_2026_full_escalation:
+  description: >
+    US executes power-plant strike threat; Iran responds with Hormuz mining and
+    sustained attacks on Gulf energy infrastructure (Aramco terminals, UAE LNG
+    hubs, Qatar North Field residual capacity). The Saudi East-West pipeline
+    (1–1.5 mb/d) is the only alternative routing for Gulf crude — wholly
+    insufficient vs 20 mb/d through Hormuz. This is the largest oil supply shock
+    in recorded history becoming systemic. Four simultaneous transmission channels
+    overwhelm offsetting forces: (1) extreme energy shock — Brent $150–200,
+    TTF €100–130; (2) stagflation trap — Fed cannot cut (inflation 4%+) or
+    hike (demand destruction); (3) EM sovereign cascade — India, Turkey, Pakistan
+    near BoP crisis; (4) demand destruction — recession probability >70% per
+    Oxford Economics at $140+ oil for two months. Gold finally moves decisively
+    as geopolitical/stagflation channel overwhelms USD competition. US 10Y yield
+    direction remains ambiguous — extreme inflation (up) and demand destruction
+    (down) compete at unprecedented magnitudes.
+  primary_risk_factors:
+  - Brent Crude (CB)
+  - TTF Nat Gas (TTF)
+  - VIX (vol pts)
+  causal_chain:
+  - step: 1
+    mechanism: US strikes Iranian power grid → Iran mines Hormuz + attacks Gulf
+      energy infrastructure; Brent surges from $112 toward $150–200; Saudi East-West
+      pipeline (1.5 mb/d) cannot replace 20 mb/d; Dallas Fed model implies
+      −2.9pp annualised Q2 GDP
+    affects:
+    - Brent Crude (CB)
+    - WTI Crude (CL)
+    - Dubai Crude (DC)
+    - OVX Oil Vol (vol pts)
+  - step: 2
+    mechanism: Products spike faster than crude as refinery feedstock cost
+      surges and ME product exports terminate; potential diesel rationing in
+      major import economies
+    affects:
+    - RBOB Gasoline (RB)
+    - ULSD Heating Oil (HO)
+    - ICE Gasoil (QS)
+  - step: 3
+    mechanism: Remaining Qatar LNG capacity damaged; TTF spikes to €100–130;
+      Goldman estimate for >2-month full closure; European storage crisis
+      becomes acute; industrial rationing begins in Germany
+    affects:
+    - TTF Nat Gas (TTF)
+  - step: 4
+    mechanism: Flight-to-quality overwhelms inflation channel for gold; stagflation
+      + potential regime change + EM cascade finally tilts gold decisively up;
+      target $5,700 from $5,050 current
+    affects:
+    - Gold (GC)
+    - USD Index DXY
+    - USD/JPY (6J)
+  - step: 5
+    mechanism: Severe equity crash — stagflation trap + recession pricing + forced
+      de-risking; S&P targets −24% from current; VIX approaches financial-crisis
+      levels 40–55
+    affects:
+    - S&P 500 (ES)
+    - Euro STOXX 50 (FESX)
+    - DAX 40 (FDAX)
+    - Nikkei 225 (NK)
+    - VIX (vol pts)
+    - VSTOXX (vol pts)
+  - step: 6
+    mechanism: EM sovereign cascade — India, Turkey, South Korea near BoP crisis;
+      EMBI spreads widen dramatically; potential IMF emergency facilities required
+    affects:
+    - USD/INR (INR)
+    - EMBI Sovereign Spread
+  - step: 7
+    mechanism: US 10Y yield — demand destruction (down) and extreme inflation (up)
+      compete at unprecedented magnitudes; net direction ambiguous; central bank
+      paralysis
+    affects:
+    - US 10Y Yield (ZN)
+  - step: 8
+    mechanism: Demand destruction cascade — global industrial recession pricing;
+      copper leads commodities lower as leading indicator
+    affects:
+    - Copper (HG)
+    - Aluminium (ALI)
+  instruments:
+    Brent Crude (CB):
+      tier: 1
+      direction: +
+      mechanism: Hormuz physically mined + Gulf infrastructure destroyed → supply
+        shock becomes irreversible in 30-day window; Saudi East-West pipeline 1.5 mb/d
+        vs 20 mb/d gap; target $150–200 from $112 current
+      prior_mean: 56.0
+      prior_strength: moderate
+    WTI Crude (CL):
+      tier: 1
+      direction: +
+      mechanism: Follows Brent; US producers benefit from extreme prices; price
+        globally set with no decoupling at this magnitude; target $145–195
+      prior_mean: 59.0
+      prior_strength: moderate
+    Dubai Crude (DC):
+      tier: 1
+      direction: +
+      mechanism: Asian imports cannot access Hormuz at any price; spot premiums
+        extreme; physical shortage in Asian markets
+      prior_mean: 55.0
+      prior_strength: moderate
+    TTF Nat Gas (TTF):
+      tier: 1
+      direction: +
+      mechanism: Remaining Qatar LNG capacity attacked; Goldman estimate €100+
+        for >2-month closure; European summer storage crisis becomes acute; industrial
+        rationing begins; target +85% from current €62
+      prior_mean: 85.0
+      prior_strength: moderate
+    OVX Oil Vol (vol pts):
+      tier: 1
+      direction: +
+      mechanism: Hormuz mining + infrastructure attacks = maximum supply uncertainty;
+        OVX approaches 80; sustained extreme backwardation; target +35 pts from ~45
+      prior_mean: 35.0
+      prior_strength: moderate
+    RBOB Gasoline (RB):
+      tier: 2
+      direction: +
+      mechanism: Crude at $175 → RBOB follows; US retail gasoline potential $6+/gal;
+        consumer demand destruction begins but inelastic short-term; target +61%
+      prior_mean: 61.0
+      prior_strength: moderate
+    ULSD Heating Oil (HO):
+      tier: 2
+      direction: +
+      mechanism: Diesel demand highly inelastic; ME distillate supply eliminated;
+        potential rationing in major import economies; target +52% from current
+      prior_mean: 52.0
+      prior_strength: moderate
+    ICE Gasoil (QS):
+      tier: 2
+      direction: +
+      mechanism: European diesel in physical shortage; TTF crisis compounds industrial
+        energy cost; target +50% from current
+      prior_mean: 50.0
+      prior_strength: moderate
+    S&P 500 (ES):
+      tier: 1
+      direction: '-'
+      mechanism: Stagflation trap + recession pricing + forced de-risking → severe
+        crash; Oxford Economics breaking-point at $140+ oil; approaching 2022 lows;
+        target −24% from current 6,560
+      prior_mean: -24.1
+      prior_strength: tight
+    VIX (vol pts):
+      tier: 1
+      direction: +
+      mechanism: Financial-crisis level vol; geopolitical + inflation + recession
+        uncertainty simultaneously extreme; target 47 (+23 pts from 24 current);
+        not at 2008/2020 levels (no financial contagion) but approaching
+      prior_mean: 23.0
+      prior_strength: moderate
+    Euro STOXX 50 (FESX):
+      tier: 2
+      direction: '-'
+      mechanism: European recession pricing — TTF industrial crisis, ECB paralysis,
+        current account collapse; hardest-hit developed market; target −15.5%
+      prior_mean: -15.5
+      prior_strength: moderate
+    DAX 40 (FDAX):
+      tier: 2
+      direction: '-'
+      mechanism: Germany faces industrial recession — chemical/steel/auto sectors
+        facing energy rationing; TTF at €115 makes German industry uncompetitive;
+        target −18%
+      prior_mean: -18.0
+      prior_strength: moderate
+    Nikkei 225 (NK):
+      tier: 2
+      direction: '-'
+      mechanism: Japan faces most severe oil import shock of any G7 economy; JPY
+        extreme safe-haven surge simultaneously crushes exporters; target −17%
+      prior_mean: -16.9
+      prior_strength: moderate
+    VSTOXX (vol pts):
+      tier: 2
+      direction: +
+      mechanism: European vol reaches financial-crisis levels driven by dual energy
+        + recession shock; may exceed VIX; target +24 pts from current ~26
+      prior_mean: 24.0
+      prior_strength: moderate
+    Gold (GC):
+      tier: 2
+      direction: +
+      mechanism: In escalation, geopolitical/stagflation channel finally overwhelms
+        USD competition; inflation becomes entrenched; regime-change risk premium
+        re-emerges; target $5,700 (+13%) from $5,050 current; decisive break above
+        Day 1 peak of $5,400
+      prior_mean: 13.0
+      prior_strength: moderate
+    USD Index DXY:
+      tier: 2
+      direction: +
+      mechanism: Extreme flight-to-quality + Fed paralysis (cannot cut or hike) +
+        EM collapse amplifies DXY; target +5.7% from 105.5 to ~111.5
+      prior_mean: 5.7
+      prior_strength: moderate
+    USD/JPY (6J):
+      tier: 2
+      direction: '-'
+      mechanism: Extreme JPY safe-haven bid — yen carry unwind at crisis scale;
+        Japan oil importer vulnerability adds financial stress; USD/JPY target
+        141.5 (−5% from 149 current)
+      prior_mean: -5.0
+      prior_strength: moderate
+    USD/NOK (NOK):
+      tier: 3
+      direction: '?'
+      mechanism: Competing forces at extreme magnitudes — oil surges (NOK bullish)
+        but USD extreme safe-haven (NOK bearish); net near-zero; USD/NOK target
+        ~10.55 from 10.60; direction genuinely ambiguous
+      prior_mean: -0.5
+      prior_strength: diffuse
+    USD/CAD (6C):
+      tier: 3
+      direction: '?'
+      mechanism: Same competing dynamics as NOK but Canada more exposed to US
+        recession risk; net direction ambiguous; small move expected either way
+      prior_mean: 0.7
+      prior_strength: diffuse
+    EUR/USD (6E):
+      tier: 2
+      direction: '-'
+      mechanism: European industrial recession + ECB paralysis + extreme current
+        account deterioration; parity test; target 0.980 from 1.025 current (−4.4%)
+      prior_mean: -4.4
+      prior_strength: moderate
+    US 10Y Yield (ZN):
+      tier: 3
+      direction: '?'
+      mechanism: Competing forces at unprecedented magnitudes — extreme demand
+        destruction (yields down) vs extreme inflation (yields up); central bank
+        paralysis; empirically ambiguous; net ~+8 bps near zero; diffuse prior
+      prior_mean: 8.0
+      prior_strength: diffuse
+    HY E&P Credit Spread:
+      tier: 2
+      direction: '-'
+      mechanism: Extreme oil = record US energy HY revenue; spreads compress to
+        near-IG quality territory from ~295 bps current; target −75 bps; most
+        counterintuitive entry in this scenario
+      prior_mean: -75.0
+      prior_strength: moderate
+    US IG Credit Spread:
+      tier: 2
+      direction: +
+      mechanism: Near-recession credit conditions → IG spreads widen; energy cost
+        shock hits non-energy IG issuers; target +60 bps
+      prior_mean: 60.0
+      prior_strength: moderate
+    Copper (HG):
+      tier: 2
+      direction: '-'
+      mechanism: Demand destruction leading indicator at crisis severity — approaching
+        2020 recession lows; global industrial output collapses; target −16.5%
+        from $4.37 to ~$3.65
+      prior_mean: -16.5
+      prior_strength: moderate
+    Aluminium (ALI):
+      tier: 2
+      direction: '-'
+      mechanism: Aluminium is highly energy-intensive to produce AND heavily industrial
+        demand-sensitive; double hit from energy cost and demand destruction
+      prior_mean: -12.0
+      prior_strength: moderate
+    USD/INR (INR):
+      tier: 2
+      direction: +
+      mechanism: India near BoP crisis — oil at $175 with 85% import dependency;
+        current account collapses; RBI reserves insufficient at this shock magnitude;
+        USD/INR target 101 (+13.5% from 89); IMF facility risk
+      prior_mean: 13.5
+      prior_strength: moderate
+    EMBI Sovereign Spread:
+      tier: 2
+      direction: +
+      mechanism: EM sovereign cascade — India, Turkey, Pakistan, Bangladesh face
+        BoP crises; IMF emergency facilities required; contagion to broader EM;
+        EMBI target +220 bps from ~350 current to ~570
+      prior_mean: 220.0
+      prior_strength: diffuse
+    Nikkei 225 (NK):
+      tier: 2
+      direction: '-'
+      mechanism: Japan: ~90% oil imported via Hormuz; extreme import shock + extreme
+        JPY safe-haven surge = double whammy at maximal severity; target −17%
+      prior_mean: -16.9
+      prior_strength: moderate
+    S&P Energy Sector (XLE):
+      tier: 2
+      direction: +
+      mechanism: US E&P revenue at record levels from extreme oil; not Hormuz-exposed;
+        XLE rises even as broad S&P crashes — sustained bifurcation; target +20%
+      prior_mean: 20.0
+      prior_strength: moderate
+    Henry Hub Nat Gas (NG):
+      tier: 4
+      direction: '?'
+      mechanism: EXCLUDE — US domestic gas insulated from Hormuz even in full
+        escalation; US LNG export capacity already near maximum
+    Wheat (ZW):
+      tier: 4
+      direction: '?'
+      mechanism: EXCLUDE — Fertilizer disruption channel is real but too indirect
+        at 30-day horizon; manifests over months not weeks
+    Corn (ZC):
+      tier: 4
+      direction: '?'
+      mechanism: EXCLUDE — Same as wheat; ethanol-oil link too weak at this horizon
+    Silver (SI):
+      tier: 4
+      direction: '?'
+      mechanism: EXCLUDE — Industrial demand destruction (down) competes with
+        safe-haven (up); no systematic escalation channel; net ambiguous
