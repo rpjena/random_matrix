@@ -1,34 +1,52 @@
 # ─────────────────────────────────────────────────────────────────────────────
-# APPEND TO: events.yaml
-# Three forward scenario event types anchored to the 2026 Iran War.
-# State vector at anchor date 2026-03-22:
-#   Brent ~$112 | WTI ~$107 | TTF ~€62 | Gold ~$5,050
-#   S&P 500 ~6,560 | VIX ~24 | DXY ~105.5
-# Bifurcation driver: Trump 48-hr ultimatum (power plants) expires 2026-03-23/24.
-# These three types are mutually exclusive forward branches of the same root event.
-# Scenario probabilities: A (18%) | B (55%) | C (27%)
+# EVENT CATALOG — 2026 Iran War Scenario Event Types
+# REFRESHED: 2026-03-25 (t0 + 17 trading days from original shock 2026-03-02)
+#
+# MATERIAL CHANGES SINCE 2026-03-22 ANCHOR:
+#   - Trump postponed power-plant strikes for 5 days (Mon Mar 23),
+#     citing "productive conversations" with Iran (Truth Social post)
+#   - Iran officially DENIED talks took place; military spokesman mocked deal
+#   - Brent crashed -11% on Monday Mar 23 from $112 to ~$100 on relief rally
+#   - Brent partially rebounded +4% on Tuesday Mar 24 to ~$104 on skepticism
+#   - Brent fell -4.7% again on Wednesday Mar 25 to ~$99.60 on 15-point plan news
+#   - US submitted 15-point ceasefire plan to Iran via Pakistan intermediaries
+#   - Iran allowed "non-hostile vessels" to transit Hormuz (Mar 25, UN note)
+#   - S&P 500 rallied +1.15% Mon Mar 23 to 6,581; VIX touched 30 then eased to 25.45
+#   - Iraq/Kuwait cut output ~70%, declared force majeure — compounding supply loss
+#   - 1,000 troops from 82nd Airborne deploying to ME; USS Boxer still en route
+#   - Saudi Yanbu Red Sea exports rose to ~4 mb/d (partial offset emerging)
+#
+# UPDATED STATE VECTOR AS OF 2026-03-25:
+#   Brent ~$99-100 | WTI ~$89 | S&P 500 ~6,581 | VIX ~25-26
+#   Iran: "non-hostile vessels" may pass Hormuz (partial, not normalised)
+#   Diplomacy: 15-point US plan on table; Iran military mocking it simultaneously
+#
+# SCENARIO PROBABILITY REVISION (from Mar 22 base):
+#   A (rapid resolution):   18% -> 28%  (ceasefire plan on table; Hormuz partial opening)
+#   B (extended stalemate): 55% -> 50%  (still base; Iran military signals undermine diplomacy)
+#   C (full escalation):    27% -> 22%  (power-plant strikes postponed 5 days, not cancelled)
 # ─────────────────────────────────────────────────────────────────────────────
 
 iran_2026_rapid_resolution:
-  description: "2026 Iran war ceasefire — Hormuz reopens, oil shock reverses sharply. Structural TTF and Brent floor above pre-war due to permanent Qatar LNG capacity loss."
+  description: "2026 Iran war ceasefire via US 15-point plan — Hormuz fully reopens within 2 weeks. Iran's partial non-hostile vessel passage (Mar 25) and Pakistan-mediated talks are the early signal. Oil shock reverses sharply but structural TTF and Brent floor persists above pre-war due to permanent Qatar LNG loss and Iraq/Kuwait well shut-ins that cannot restart instantly."
   shock_direction_oil: "down"
   instances:
     - name: "Iran 2026 Rapid Resolution"
-      t0: "2026-03-22"
-      notes: "Ceasefire/back-channel deal by ~Apr 5–12 reopens Hormuz; Brent falls from $112 toward $75–85 but structural floor held above pre-war $65 (Qatar LNG 17% capacity offline, 3–5yr repair). S&P +6%; VIX normalises to ~18. TTF structural floor ~€40–50 — does not revert to pre-war €33."
+      t0: "2026-03-25"
+      notes: "15-point US ceasefire plan submitted to Iran via Pakistan (Mar 24); Iran signals partial Hormuz opening for non-hostile vessels (Mar 25); Trump postponed power-plant strikes 5 days (Mar 23). Brent already fell -11% from $112 peak to ~$100 on relief pricing. Full Hormuz reopening targets Brent $72-82 — new structural floor above pre-war $65 because: (1) Qatar LNG 17% capacity offline, 3-5yr repair; (2) Iraq/Kuwait force majeure shut-ins cannot restart instantly; (3) Gulf infrastructure damage premium. S&P +4-6% from current 6,581; VIX normalises toward 18; relief rally already partially priced in Monday +1.15%. [WINDOW FLAG: 30-day endpoint may overstate reversion speed — shut-in wells and LNG damage create lingering supply floor even post-ceasefire]"
 
 iran_2026_extended_stalemate:
-  description: "2026 Iran war stalemate — Hormuz remains ~10% open via Navy escort corridors; oil grinds higher as Gulf storage fills and production curtailments compound the supply shock. Stagflation channel dominates."
+  description: "2026 Iran war stalemate — 15-point ceasefire plan stalls on Iran's nuclear red lines; Trump 5-day postponement expires without deal (~Mar 28); Hormuz partial passage offer withdrawn. Oil resets from current ~$100 back to $110-125 as relief premium evaporates and Iraq/Kuwait force majeure compounds the supply picture."
   shock_direction_oil: "up"
   instances:
     - name: "Iran 2026 Extended Stalemate"
-      t0: "2026-03-22"
-      notes: "No ceasefire before ~Jun 2026; Brent grinds to $120–140 as Gulf storage fills (~Apr 5–15) and Iraq/Kuwait enforce compulsory production shutdowns. TTF spikes to €80–100 as Europe misses summer gas refill season. S&P −10–12%; Goldman recession odds rise to 35–40%. Iranian oil sanctions waiver expires Apr 19, removing one supply-side offset. [WINDOW FLAG: compounding mechanism worsens through Apr–May; 30-day endpoint understates eventual peak in B scenario]"
+      t0: "2026-03-25"
+      notes: "Iran military mocked ceasefire talks on Mar 25 (CBS); IRGC stated 'special plans arranged for Tel Aviv' post-Trump postponement. 15-point plan will likely stall — Iran's nuclear red lines (enrichment) are non-negotiable per stated position. Trump 5-day window expires ~Mar 28; if no deal, power-plant strike threat re-activates. Brent resets from current ~$100 back toward $110-125 range as relief unwinds; Iraq/Kuwait force majeure (~70% cut) compounds Hormuz with permanent well shut-ins. Saudi Yanbu at ~4 mb/d is a partial offset but cannot bridge 20 mb/d Hormuz gap. VIX re-elevates to 28-33. [WINDOW FLAG: compounding mechanism worsens Apr-May as Gulf storage exhaustion locks in shut-ins; 30-day endpoint understates eventual peak]"
 
 iran_2026_full_escalation:
-  description: "2026 Iran war full escalation — US strikes Iranian power grid; Iran mines Hormuz and destroys Gulf energy infrastructure. Oil supply shock becomes systemic; stagflation/recession dynamics dominate all asset classes."
+  description: "2026 Iran war full escalation — 5-day postponement expires, US strikes power plants, Iran mines Hormuz and attacks Gulf infrastructure. Iraq/Kuwait well shut-ins become permanent as restarts require ceasefire plus months of well rehabilitation. Brent $150-190; systemic stagflation recession."
   shock_direction_oil: "up"
   instances:
     - name: "Iran 2026 Full Escalation"
-      t0: "2026-03-22"
-      notes: "US executes power-plant strike threat; Iran mines Hormuz and attacks Aramco/UAE/Qatar terminals. Brent surges to $150–200 — Saudi East-West pipeline (1–1.5 mb/d) cannot replace 20 mb/d Hormuz flow. TTF spikes to €100–130; S&P −20–30%; VIX 40–55; USD/INR approaches BoP crisis territory. Oxford Economics 'breaking point' at $140+ for 2 months. [WINDOW FLAG: 30-day window captures peak shock but not full EM sovereign contagion, which lags 4–8 weeks]"
+      t0: "2026-03-25"
+      notes: "If 5-day postponement expires (~Mar 28) without deal, US power-plant strikes follow; Iran fulfils 'complete closure' threat confirmed Mar 22 (CBS). IRGC stated 'Special plans arranged tonight for Tel Aviv and regional allies' (Wikipedia). Iraq/Kuwait already at ~70% output cut and force majeure — full escalation makes shut-ins permanent (well rehabilitation takes months even after ceasefire). Brent $150-190; TTF 100-130 EUR/MWh; S&P -22-28% from current 6,581; VIX 42-55. Oxford Economics breaking point at $140+ sustained; Goldman recession probability >60%. Saudi East-West pipeline max 1.5 mb/d vs 20 mb/d Hormuz — physically unbridgeable. [WINDOW FLAG: 30-day window captures peak energy shock but lags full EM sovereign contagion by 4-8 weeks; well shut-in permanence means no supply snap-back post-ceasefire]"
