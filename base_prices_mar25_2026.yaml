@@ -1,0 +1,227 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# BASE REFERENCE PRICES — All transmission map instruments
+# As of: 2026-03-25 (intraday snapshot, approximate NY morning)
+# ─────────────────────────────────────────────────────────────────────────────
+#
+# QUALITY CODES:
+#   LIVE      — real-time or same-session quote from named source
+#   CONFIRMED — same-day or prior-session close from named source
+#   ESTIMATED — derived from confirmed related data or analyst commentary
+#
+# Pre-war column = Feb 27 2026 (last close before strikes on Feb 28 Saturday)
+# ─────────────────────────────────────────────────────────────────────────────
+
+as_of_date: "2026-03-25"
+
+prices:
+
+  # ── ENERGY: CRUDE ──────────────────────────────────────────────────────────
+
+  Brent Crude (CB):
+    price: 99.60
+    unit: USD/bbl
+    pre_war: 71.00
+    quality: CONFIRMED
+    source: "Reuters Mar 25 — fell $4.89 (4.7%) to $99.60 on ceasefire prospect"
+
+  WTI Crude (CL):
+    price: 88.81
+    unit: USD/bbl
+    pre_war: 67.00
+    quality: CONFIRMED
+    source: "Reuters Mar 25 — fell $3.54 (3.8%) to $88.81"
+
+  Dubai Crude (DC):
+    price: 97.50
+    unit: USD/bbl
+    pre_war: 69.00
+    quality: ESTIMATED
+    source: "Inferred from Brent $99.60; Dubai typically $2-3 discount; Asian shortage premium has kept spread narrow"
+
+  # ── ENERGY: NATURAL GAS ────────────────────────────────────────────────────
+
+  TTF Nat Gas (TTF):
+    price: 53.82
+    unit: EUR/MWh
+    pre_war: 33.00
+    quality: LIVE
+    source: "Yahoo Finance (TTF=F) and oilpriceapi.com — 53.82 EUR/MWh as of Mar 24 15:48 GMT; 52-week range 26.55–69.35"
+
+  # ── ENERGY: REFINED PRODUCTS ───────────────────────────────────────────────
+
+  RBOB Gasoline (RB):
+    price: 2.63
+    unit: USD/gal
+    pre_war: 2.20
+    quality: ESTIMATED
+    source: "Inferred from WTI $88.81 and typical gasoline crack spread (~$0.35-0.45/gal above WTI in current conditions). US retail gasoline above $4/gal confirmed (CBS News)"
+
+  ULSD Heating Oil (HO):
+    price: 2.93
+    unit: USD/gal
+    pre_war: 2.15
+    quality: ESTIMATED
+    source: "Inferred from WTI $88.81; ULSD crack typically $0.45-0.55 above RBOB; ME distillate flows disrupted keeping distillate crack elevated"
+
+  ICE Gasoil (QS):
+    price: 875.00
+    unit: USD/MT
+    pre_war: 630.00
+    quality: ESTIMATED
+    source: "Derived from ULSD $2.93/gal; 1 gal = 3.785L; gasoil density ~0.845 kg/L; ~$876/MT equivalent. European benchmark tracks ULSD."
+
+  # ── PRECIOUS METALS ────────────────────────────────────────────────────────
+
+  Gold (GC):
+    price: 4410.00
+    unit: USD/oz
+    pre_war: 5250.00
+    quality: LIVE
+    source: "Yahoo Finance live Mar 25 — $4,410.00 +$2.70 (+0.06%). LiteFinance: consolidating $4,254–$4,441 range on Mar 25"
+
+  # ── EQUITY INDICES ─────────────────────────────────────────────────────────
+
+  S&P 500 (ES):
+    price: 6584.81
+    unit: index
+    pre_war: 6900.00
+    quality: LIVE
+    source: "Yahoo Finance live Mar 25 — 6,584.81 +3.81 (+0.06%)"
+
+  Euro STOXX 50 (FESX):
+    price: 5695.00
+    unit: index
+    pre_war: 5820.00
+    quality: ESTIMATED
+    source: "ECB/Euronews (Mar 19): STOXX 50 dropped 1.8% to 5,635. CNBC Mar 24 session: Stoxx 600 +1.8% snap-back. CNBC Mar 25: Stoxx +1.4% morning. Estimated ~5,695 after partial recovery"
+
+  DAX 40 (FDAX):
+    price: 23235.00
+    unit: index
+    pre_war: 23900.00
+    quality: ESTIMATED
+    source: "ECB/Euronews (Mar 19): DAX fell 2.39% to 22,940. CNBC Mar 25: DAX up +1.3% on ceasefire optimism → ~23,235 estimated"
+
+  Nikkei 225 (NK):
+    price: 37250.00
+    unit: index
+    pre_war: 39500.00
+    quality: ESTIMATED
+    source: "NPR (Mar 9): Nikkei plunged >5% when oil hit $120 (~37,500 implied). Partial recovery on relief week. Estimated ~37,000–37,500 range"
+
+  S&P Energy Sector (XLE):
+    price: 108.00
+    unit: USD
+    pre_war: 100.00
+    quality: ESTIMATED
+    source: "CNBC Day1: Exxon +4%, Chevron +3%, ConocoPhillips +5%. XLE sustained elevated as oil above $100. Estimated +8% from pre-war ~$100"
+
+  # ── VOLATILITY ─────────────────────────────────────────────────────────────
+
+  VIX (vol pts):
+    price: 26.44
+    unit: vol pts
+    pre_war: 17.00
+    quality: LIVE
+    source: "Yahoo Finance live Mar 25 — VIX 26.44 +0.29 (+1.11%). Note: touched 30.0 on Mar 23 morning pre-Trump postponement; eased to 25.45 intraday then"
+
+  VSTOXX (vol pts):
+    price: 27.80
+    unit: vol pts
+    pre_war: 18.00
+    quality: ESTIMATED
+    source: "Typically trades 1–2 pts above VIX in European-driven stress scenarios; slightly wider given ECB hold and TTF crisis adding European-specific premium"
+
+  OVX Oil Vol (vol pts):
+    price: 42.00
+    unit: vol pts
+    pre_war: 25.00
+    quality: ESTIMATED
+    source: "Structurally elevated with Hormuz effectively closed. Partial easing as Brent pulled back from $112 to $100. Estimated from typical OVX/Brent implied-vol relationship"
+
+  # ── FX ─────────────────────────────────────────────────────────────────────
+  # Convention: all expressed as foreign currency units per 1 USD
+  # Exception: EUR/USD expressed as USD per 1 EUR
+
+  USD Index DXY:
+    price: 104.30
+    unit: index
+    pre_war: 103.50
+    quality: ESTIMATED
+    source: "CNN (Mar 2): DXY +0.95% to ~103.50 intraday high. Peaked ~105.5 during escalation. Eased on Mon Mar 23 ceasefire rally; stabilised ~104.0–104.5. Investing.com US 2Y yield commentary implies USD still firm"
+
+  EUR/USD (6E):
+    price: 1.0820
+    unit: USD per EUR
+    pre_war: 1.0450
+    quality: ESTIMATED
+    source: "CNBC Mar 25: Euro Stoxx +1.4% on de-escalation; Euronews (Mar 19) ECB held rates. EUR partially recovered on ceasefire optimism. Estimated ~1.080–1.084 range"
+
+  USD/JPY (6J):
+    price: 149.50
+    unit: JPY per USD
+    pre_war: 153.00
+    quality: ESTIMATED
+    source: "Investing.com (Mar 25): UBS raised USD/JPY forecast citing elevated energy prices; Barclays: 'near-term pressure from geopolitical developments'. JPY safe-haven bid partially intact (153→149) but weakening"
+
+  USD/NOK (NOK):
+    price: 10.40
+    unit: NOK per USD
+    pre_war: 10.80
+    quality: ESTIMATED
+    source: "NBC Economics (Mar 2026): 'loonie [and NOK] among strongest G10 currencies since Iran conflict began'. NOK petrocurrency benefit from oil above $100. USD/NOK fell from 10.80 pre-war"
+
+  USD/CAD (6C):
+    price: 1.4115
+    unit: CAD per USD
+    pre_war: 1.4300
+    quality: ESTIMATED
+    source: "NBC Economics (Mar 2026): 'CAD one of strongest major currencies since conflict'. MUFG March 2026 FX outlook confirms CAD strength. Inferred ~1.410–1.413"
+
+  USD/INR (INR):
+    price: 89.50
+    unit: INR per USD
+    pre_war: 87.00
+    quality: ESTIMATED
+    source: "MUFG March 2026 FX: 'raised USD forecasts vs currencies with high energy import-dependence'. India ~85% oil imported via Hormuz. USD/INR estimated risen from 87 to ~89–90"
+
+  # ── RATES ──────────────────────────────────────────────────────────────────
+
+  US 10Y Yield (ZN):
+    price: 4.39
+    unit: pct
+    pre_war: 4.50
+    quality: CONFIRMED
+    source: "Yahoo Finance live Mar 25 — CBOE Interest Rate 10Y: 4.3880 +0.054 (+1.25%). Note: fell to 3.96% intraday on Mar 1 (CNN), reversed to 4.04% Mar 2, now back to 4.39% on inflation repricing"
+
+  # ── CREDIT SPREADS ─────────────────────────────────────────────────────────
+
+  HY E&P Credit Spread:
+    price: 295.00
+    unit: bps
+    pre_war: 350.00
+    quality: ESTIMATED
+    source: "Pre-war US energy HY OAS ~350 bps. High oil prices (~$100 current) mechanically improve US E&P issuer revenue, compressing spreads. Estimated ~55 bps tightening from pre-war to ~295 bps"
+
+  EMBI Sovereign Spread:
+    price: 345.00
+    unit: bps
+    pre_war: 280.00
+    quality: ESTIMATED
+    source: "EM oil-importing sovereigns (India, Turkey, Pakistan) under CA pressure. MUFG raised USD forecasts for energy-import-dependent EM. Estimated ~65 bps widening from pre-war ~280 bps"
+
+  # ── BASE METALS ────────────────────────────────────────────────────────────
+
+  Copper (HG):
+    price: 5.53
+    unit: USD/lb
+    pre_war: 6.09
+    quality: CONFIRMED
+    source: "Investing.com Mar 25 — Copper futures $5.5333, prev close $5.4550, range $5.5008–$5.5795. Pre-war: Livewire (Mar 5) confirms $13,439/t (~$6.09/lb) before Feb 28 strikes; retreated to $12,955/t by early March"
+
+  Aluminium (ALI):
+    price: 3365.00
+    unit: USD/MT
+    pre_war: 3197.50
+    quality: ESTIMATED
+    source: "ainvest (Mar 18): aluminium fell 0.4% to $3,386.50/ton from 4-yr high $3,494.50 after Bahrain Aluminium 19% output cut. Partial demand destruction from Iran war offset by supply disruption. Estimated ~$3,350–3,380/MT on Mar 25"
