@@ -1,0 +1,100 @@
+# ============================================================
+# ANCHOR DATE   : 2026-03-27
+# SCENARIO PROBS: A (rapid_resolution) = 15% | B (extended_stalemate) = 55% | C (full_escalation) = 30%
+#
+# KEY GEOPOLITICAL FACTS (27 Mar 2026 — Day 28 of Iran war):
+#   - Hormuz effectively closed since ~2 Mar; 6 or fewer ships/day transiting (vs 130 pre-war)
+#   - Iran rejected US 15-point ceasefire plan; countered with 5-point plan demanding Hormuz sovereignty
+#   - Trump extended deadline for power-plant strikes by 10 days to 6 Apr 2026 (cites "ongoing talks")
+#   - Iran FM Araghchi: "messages via mediators do not mean negotiations"
+#   - Iran's "present" to Trump: allowed ~8–10 oil tankers through Strait this week
+#   - Iran SELECTIVELY allows China, Russia, India, Iraq, Pakistan flagged vessels
+#   - Oman bypass ports Duqm/Salalah struck by drones; war-risk insurance covers entire Gulf/Oman waters
+#   - Israel killed IRGC navy commander Tangsiri (Hormuz blockade architect) on 26 Mar
+#   - Brent at ~$106.50/bbl; TTF at ~€55.20/MWh — both structurally elevated, not spiking further
+#   - US Marine/Army deployment ongoing; 22-nation coalition planning Hormuz escort mission
+#
+# DIRECTION REVISIONS FROM EMPIRICAL PRIORS TABLE:
+#   - No revisions. All empirical directions maintained.
+#   - Gold at $4,450 (down from $5,595 Jan high): confirms '-' in stalemate (USD/inflation hedging
+#     losing to real-yield headwinds; gold is below pre-war level of $5,250 — stagflation premium
+#     partially reversed by stronger dollar and Fed-on-hold repricing).
+# ============================================================
+
+iran_2026_rapid_resolution:
+  description: >
+    A ceasefire emerges within 2–4 weeks, brokered via Pakistan/Egypt mediators; Iran
+    accepts partial Hormuz sovereignty language and US sanctions relief in exchange for
+    halting nuclear enrichment and reopening the Strait by late April. Brent sheds the
+    $15–20 geopolitical risk premium rapidly, equities recover, but structural damage
+    from Qatari LNG infrastructure attacks sets a floor on TTF at €35–40/MWh through
+    summer 2026.
+  shock_direction_oil: "down"
+  instances:
+    - name: "Iran 2026 Rapid Resolution"
+      t0: "2026-03-27"
+      notes: >
+        Brent target $82–88/bbl (-18% to -22% from $106.50 anchor) as $15–20 risk premium
+        unwinds; S&P 500 relief rally to 6,900–7,200 (+6% to +11% from 6,477); TTF structural
+        floor at €35–40/MWh due to Qatar LNG facility damage (not pre-war €33 base).
+        VIX mean-reverts to 17–19 within 30 days of ceasefire.
+        [WINDOW FLAG: 30-day stress window OVERSTATES oil downside — ceasefire credibility will be
+        tested over 60–90 days before tanker insurance normalises and full Hormuz volumes resume;
+        Brent is likely to settle at $88–95 in the first 30 days rather than reaching $82 immediately.]
+        Key catalyst within window: Trump–Araghchi deal signed before 6 Apr deadline.
+        Key structural caveat: Oman bypass ports remain partially damaged; shipping re-normalisation
+        takes 6–8 weeks minimum even after formal ceasefire.
+
+iran_2026_extended_stalemate:
+  description: >
+    The dominant scenario (55% probability): no deal emerges before the 6 Apr deadline;
+    Trump repeatedly rolls deadlines while limited military operations continue; Hormuz
+    stays at 10–20% normal throughput with Iran's selective access policy for friendly
+    nations persisting. Brent oscillates $95–115/bbl driven by headline risk and partial
+    production workarounds (Saudi/UAE pipeline diversions, SPR releases), but fails to
+    normalise as OECD inventories draw to critically low levels through Q2/Q3 2026.
+  shock_direction_oil: "up"
+  instances:
+    - name: "Iran 2026 Extended Stalemate"
+      t0: "2026-03-27"
+      notes: >
+        Brent drifts up to $112–118/bbl (+5% to +11% from $106.50) over 30-day window as
+        storage draws accelerate (IEA: worst energy disruption since 1970s); TTF climbs
+        to €65–75/MWh (Goldman Q2 forecast €72/MWh, adverse scenario €89/MWh if Hormuz
+        blocked 10+ weeks); Iraq force majeure on 4.5 mbpd is a compounding factor.
+        S&P 500 drifts to 6,100–6,300 (-3% to -6%) as stagflation premium bites earnings.
+        [WINDOW FLAG: 30-day window UNDERSTATES gas market stress — EU storage at 28.4%
+        of capacity on 24 Mar vs 5-year avg; summer injection season begins April and
+        market will price TTF €80–90/MWh scenario by June if Hormuz not resolved.]
+        Key stalemate mechanism: Iran's selective-access policy creates a "creeping
+        normalisation" for non-Western buyers (China, India) while EU/US physical premium
+        remains structurally elevated; killing of IRGC navy commander Tangsiri removes
+        moderate voices from Hormuz negotiation track.
+
+iran_2026_full_escalation:
+  description: >
+    Trump acts on 6 Apr deadline; US strikes Iranian power plants triggering IRGC to
+    formally mine the Strait of Hormuz and attack Saudi/UAE energy infrastructure; Gulf
+    tanker transit drops to near-zero for 4–8 weeks. Brent spikes to $150–190/bbl on
+    physical shortage and war premium, recession probability in oil-importing economies
+    surges to 60–70%, and global financial markets reprice for a supply shock exceeding
+    1973 in duration.
+  shock_direction_oil: "up"
+  instances:
+    - name: "Iran 2026 Full Escalation"
+      t0: "2026-03-27"
+      notes: >
+        Brent target $150–190/bbl (+41% to +78% from $106.50 anchor) within 10–20 days
+        of power-plant strikes; TTF spikes to €100–155/MWh (SEB worst-case estimate
+        €155/MWh if Qatari LNG fully disrupted); S&P 500 drops to 5,200–5,600 (-14%
+        to -20%) with recession probability 60–70% (Goldman: every $10 oil adds 0.3%
+        to CPI). VIX targets 45–60 vol pts.
+        [WINDOW FLAG: 30-day window UNDERSTATES full impact — Hormuz mining effects
+        take 4–8 weeks to flow through to OECD storage draws; oil price spike may
+        not peak within 30-day window; insurance market shutdown and forced cape-route
+        rerouting adds 30–45 days lag to physical delivery.]
+        Trigger: Trump executes 6 Apr deadline strike on Iranian power plants.
+        Secondary trigger: Iran mines Strait of Hormuz within 24 hours of first strike.
+        Key structural caveat: Trump midterm calculus (Nov 2026) creates incentive to
+        de-escalate within 4–6 weeks of escalation, capping the full-escalation scenario
+        duration.

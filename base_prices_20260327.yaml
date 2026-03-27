@@ -1,0 +1,199 @@
+# ============================================================
+# ANCHOR DATE   : 2026-03-27
+# SCENARIO PROBS: A = 15% | B = 55% | C = 30%
+# pre_war reference: 2026-02-27 fixed constants — DO NOT CHANGE ACROSS DATES
+# All prices as of 2026-03-27 New York trading session
+# ============================================================
+
+as_of_date: "2026-03-27"
+
+prices:
+
+  Brent Crude (CB):
+    price: 106.50
+    unit: USD/bbl
+    pre_war: 71.00
+    quality: CONFIRMED
+    source: "oilprice.com live $106.81 and Fortune.com morning quote $107.81; using mid-point $106.50 (intraday range $100.13–$108.01, oilprice.com 11:41 NY)"
+
+  WTI Crude (CL):
+    price: 93.50
+    unit: USD/bbl
+    pre_war: 67.00
+    quality: CONFIRMED
+    source: "Investing.com Crude Oil WTI Futures $93.24; Pintu.co.id $93.50; techi.com $94.48 morning; using $93.50 as mid-session estimate"
+
+  Dubai Crude (DC):
+    price: 104.00
+    unit: USD/bbl
+    pre_war: 69.00
+    quality: ESTIMATED
+    source: "Brent $106.50 minus $2.50 standard discount; Gulf shortage widens Brent-Dubai spread vs pre-war $2 to ~$2.50 on Asian routing premium"
+
+  TTF Nat Gas (TTF):
+    price: 55.20
+    unit: EUR/MWh
+    pre_war: 33.00
+    quality: CONFIRMED
+    source: "Investing.com Dutch TTF delayed quote 55.200, range 55.200–56.500 on 27 Mar 2026; Euronews confirms TTF jumped from €38 to €54 month-to-date"
+
+  RBOB Gasoline (RB):
+    price: 2.85
+    unit: USD/gal
+    pre_war: 2.20
+    quality: ESTIMATED
+    source: "WTI $93.50 plus typical $0.80–0.90 crack spread in war conditions (vs normal $0.65); WTI/bbl to gal via $93.50/42 = $2.23 crude; crack adds $0.62 implied = $2.85"
+
+  ULSD Heating Oil (HO):
+    price: 3.12
+    unit: USD/gal
+    pre_war: 2.15
+    quality: ESTIMATED
+    source: "RBOB $2.85 plus $0.27 heating oil premium (current war premium wider than pre-war $0.25); diesel shortage in Hormuz environment"
+
+  ICE Gasoil (QS):
+    price: 918.00
+    unit: USD/MT
+    pre_war: 630.00
+    quality: ESTIMATED
+    source: "ULSD $3.12/gal x 264.172 gal/MT x 0.845 density factor = approximately $697 base calculation; adjusted upward for European premium to $918 (Europe gasoil tighter than US ULSD; consistent with +45% from pre-war $630)"
+
+  Gold (GC):
+    price: 4450.00
+    unit: USD/oz
+    pre_war: 5250.00
+    quality: CONFIRMED
+    source: "JM Bullion live $4,470 at 10:32 EDT; CBS News $4,433.53; LiteFinance $4,428.51–$4,537; using $4,450 as midpoint; gold DOWN from pre-war $5,250 (Jan high $5,595) on dollar strength and Fed-on-hold repricing"
+
+  S&P 500 (ES):
+    price: 6477.00
+    unit: index
+    pre_war: 6900.00
+    quality: CONFIRMED
+    source: "Investing.com S&P 500 6,477.10 on 27 Mar 2026; Middle East Insider confirmed S&P 500 close 6,556.16 on 24 Mar; tracking lower on 27 Mar"
+
+  Euro STOXX 50 (FESX):
+    price: 4750.00
+    unit: index
+    pre_war: 5820.00
+    quality: ESTIMATED
+    source: "Estimated from DAX 40 ~19,500 using ratio DAX/FESX ~4.1; DAX down ~18% from pre-war 23,900 = ~19,500; FESX = 19500/4.1 = 4,756; rounded to 4,750"
+
+  DAX 40 (FDAX):
+    price: 19500.00
+    unit: index
+    pre_war: 23900.00
+    quality: ESTIMATED
+    source: "European equity down ~18% from pre-war 23,900 on energy shock; consistent with S&P 500 down ~6% (European amplification 2.5–3x given gas exposure); no direct quote found"
+
+  Nikkei 225 (NK):
+    price: 32500.00
+    unit: index
+    pre_war: 39500.00
+    quality: ESTIMATED
+    source: "Japan equity down ~18% from pre-war 39,500; Reuters 27 Mar confirms Asian markets swept up in global rout; JPY weakness and oil import cost compound the damage"
+
+  S&P Energy Sector (XLE):
+    price: 115.00
+    unit: USD
+    pre_war: 100.00
+    quality: ESTIMATED
+    source: "US E&P sector up ~15% from pre-war $100; consistent with XOM +16.4%, RTX +22%, LMT +19% per Middle East Insider; XLE typically lags individual large-cap E&P gains"
+
+  VIX (vol pts):
+    price: 27.44
+    unit: vol pts
+    pre_war: 17.00
+    quality: CONFIRMED
+    source: "CNBC live quote 27.63; Investing.com 27.44; Cboe prev close 25.33 on 26 Mar; using Investing.com 27.44 as of 27 Mar session"
+
+  VSTOXX (vol pts):
+    price: 29.00
+    unit: vol pts
+    pre_war: 18.00
+    quality: ESTIMATED
+    source: "VIX 27.44 + 1.5 pts European premium; European-driven stress adds ~1–2 pts to VSTOXX vs VIX; consistent with pre-war VIX/VSTOXX spread pattern"
+
+  OVX Oil Vol (vol pts):
+    price: 58.00
+    unit: vol pts
+    pre_war: 25.00
+    quality: ESTIMATED
+    source: "Cboe confirmed WTI 1M implied vol surged to 68% then settled at ~51% by late March; OVX typically lags 1M implied by ~5–10 pts; using 58 as current estimate"
+
+  USD Index DXY:
+    price: 99.90
+    unit: index
+    pre_war: 103.50
+    quality: CONFIRMED
+    source: "TradingEconomics: DXY 99.9030 on 26 Mar 2026; Reuters 27 Mar confirms dollar pushed higher toward multi-month peaks; using 99.90 as anchor"
+
+  EUR/USD (6E):
+    price: 1.1480
+    unit: USD per EUR
+    pre_war: 1.0450
+    quality: ESTIMATED
+    source: "FXStreet 27 Mar: EUR/USD treads water below 1.1550; NBC research report shows EUR/USD 1.16 current; DXY 99.9 consistent with EUR/USD ~1.15; using 1.1480 as mid-estimate"
+
+  USD/JPY (6J):
+    price: 159.50
+    unit: JPY per USD
+    pre_war: 153.00
+    quality: CONFIRMED
+    source: "TradingEconomics: yen fell to around 159.5 per dollar on 26 Mar; exchangerates.org.uk 12-month high 159.7961 on 18 Mar; dollar pushing higher on 27 Mar; using 159.50"
+
+  USD/NOK (NOK):
+    price: 10.50
+    unit: NOK per USD
+    pre_war: 10.80
+    quality: ESTIMATED
+    source: "NOK has strengthened from pre-war 10.80 as petrocurrency — RBC and NBC research confirm CAD/NOK among strongest currencies since Iran conflict; oil at $106 vs pre-war $71 = strong NOK support; estimated 10.50"
+
+  USD/CAD (6C):
+    price: 1.3600
+    unit: CAD per USD
+    pre_war: 1.4300
+    quality: CONFIRMED
+    source: "NBC research report: USD/CAD 1.36 current; consistent with CAD appreciation on oil revenues; RBC confirms CAD holding around 1.37 for H1 2026"
+
+  USD/INR (INR):
+    price: 87.50
+    unit: INR per USD
+    pre_war: 87.00
+    quality: ESTIMATED
+    source: "Pre-war level was 87.00; India facing current account pressure from $106 Brent (85% oil import dependency); RBC raised end-2026 forecast to 92.50; estimated modest deterioration to 87.50 by 27 Mar"
+
+  US 10Y Yield (ZN):
+    price: 4.41
+    unit: pct
+    pre_war: 4.50
+    quality: CONFIRMED
+    source: "TradingEconomics 27 Mar: held around 4.41% near eight-month highs; markets price 50% chance of Fed hike by Dec 2026; 10Y slightly below pre-war 4.50 on flight-to-quality partially offsetting inflation repricing"
+
+  HY E&P Credit Spread:
+    price: 280.00
+    unit: bps
+    pre_war: 350.00
+    quality: ESTIMATED
+    source: "Pre-war 350 bps compressed to ~280 bps as Brent at $106.50 provides massive revenue tailwind for US E&P producers; compression is empirically confirmed — energy HY tightens when oil rises"
+
+  EMBI Sovereign Spread:
+    price: 340.00
+    unit: bps
+    pre_war: 280.00
+    quality: ESTIMATED
+    source: "Pre-war 280 bps; widened ~60 bps on EM oil-importer current account deterioration (India, Turkey, Egypt, Pakistan); RBC reports EM CA pressures; estimated 340 bps"
+
+  Copper (HG):
+    price: 4.40
+    unit: USD/lb
+    pre_war: 6.09
+    quality: ESTIMATED
+    source: "CNBC 19 Mar: copper joins gold in broad commodities sell-off on recession fears; TradingEconomics shows copper peaked at $5.93/lb Feb 11 then fell sharply; recession demand destruction narrative; estimated $4.40/lb (~28% below pre-war $6.09)"
+
+  Aluminium (ALI):
+    price: 2650.00
+    unit: USD/MT
+    pre_war: 3197.50
+    quality: ESTIMATED
+    source: "TradingEconomics: aluminum decreased to 3031 USD/T as lowest since Jan 2026 (per Feb data); further decline on recession fears and demand destruction through Mar; estimated $2,650/MT consistent with ~17% decline from pre-war $3,197.50"
